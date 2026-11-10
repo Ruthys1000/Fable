@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>תיק פתוח</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&display=swap">
+<style>
+/* Layout: a case file on a desk. Evidence index on the right, a standing "belief board" on the left that travels with the reader. */
+:root{
+  --ground:#E3E8EC; --paper:#F8FAFB; --ink:#13232D; --muted:#566872; --line:#C3CDD4;
+  --accent:#2440C8; --accent-ink:#FFFFFF; --stamp:#C4372B; --tint:#EDF1F4;
+  --hK:#C68A12; --hS:#16857F; --hT:#A63E78; --hM:#4C5BD0; --hO:#AEB9C0;
+  --display:"Frank Ruhl Libre","David","Times New Roman",serif;
+  --body:"IBM Plex Sans Hebrew","Heebo","Arial Hebrew",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ground:#0F171C; --paper:#172229; --ink:#E3EAEE; --muted:#93A4AE; --line:#2C3B45;
+  --accent:#8C9EFF; --accent-ink:#0F171C; --stamp:#F0715F; --tint:#1D2A32;
+  --hK:#E0A93A; --hS:#3DB5AD; --hT:#D772A8; --hM:#8A97F2; --hO:#44535D; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --ground:#0F171C; --paper:#172229; --ink:#E3EAEE; --muted:#93A4AE; --line:#2C3B45;
+  --accent:#8C9EFF; --accent-ink:#0F171C; --stamp:#F0715F; --tint:#1D2A32;
+  --hK:#E0A93A; --hS:#3DB5AD; --hT:#D772A8; --hM:#8A97F2; --hO:#44535D; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65}
+#app{direction:rtl;max-width:1120px;margin:0 auto;padding-block:20px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* top bar */
+.bar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.brand h1{font-size:2rem;font-weight:900}
+.brand span{color:var(--muted);font-size:.9rem}
+.clock{display:flex;align-items:center;gap:10px;font-size:.9rem}
+.clock b{font-variant-numeric:tabular-nums}
+.ticks{display:flex;gap:3px;direction:ltr}
+.ticks i{width:14px;height:20px;border:1.5px solid var(--ink);background:var(--ink)}
+.ticks i.used{background:transparent;border-color:var(--line)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:28px;align-items:start}
+.layout>*{min-width:0}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:flex;flex-direction:column;gap:14px}
+@media (max-width:860px){ .layout{grid-template-columns:minmax(0,1fr)} aside{position:static} }
+
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:24px}
+@media (max-width:480px){ .sheet{padding:18px 16px} }
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+.lede{font-size:1.06rem;max-width:62ch}
+.stack{display:flex;flex-direction:column;gap:16px}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:3px;padding:10px 16px;font-weight:600}
+.btn:hover{background:var(--tint)}
+.btn.go{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.go:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.wide{width:100%}
+
+/* brief */
+.mail{position:relative;border:1px solid var(--line);background:var(--tint);padding:18px 20px;border-radius:3px}
+.mail dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0 0 14px;font-size:.9rem;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.mail dt{color:var(--muted)} .mail dd{margin:0;font-weight:500}
+.mail p+p{margin-top:10px}
+.stamp{position:absolute;top:14px;left:16px;transform:rotate(-7deg);border:2.5px solid var(--stamp);color:var(--stamp);font-family:var(--display);font-weight:900;padding:1px 10px;font-size:1.05rem;letter-spacing:.08em;opacity:.85}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.facts div{border-top:2px solid var(--ink);padding-top:8px}
+.facts b{display:block;font-family:var(--display);font-size:1.7rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.facts span{font-size:.85rem;color:var(--muted)}
+
+/* belief board */
+.board h2{font-size:1.2rem}
+.bar10{display:flex;height:14px;border-radius:2px;overflow:hidden;direction:rtl;background:var(--hO)}
+.bar10 i{display:block;transition:flex-grow .25s}
+.hyp{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.hyp .nm{font-weight:600;display:flex;align-items:center;gap:8px}
+.hyp .nm i{width:12px;height:12px;border-radius:50%;flex:none}
+.hyp .ds{grid-column:1;font-size:.84rem;color:var(--muted);line-height:1.4}
+.step{grid-row:1/span 2;grid-column:2;display:flex;align-items:center;gap:6px;direction:ltr}
+.step button{width:32px;height:32px;border:1.5px solid var(--ink);background:transparent;border-radius:50%;font-weight:600;line-height:1;padding:0}
+.step button:hover:not([disabled]){background:var(--tint)}
+.step button[disabled]{opacity:.3;cursor:not-allowed}
+.step b{min-width:1.4em;text-align:center;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.pool{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;font-size:.9rem}
+
+/* evidence index */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{text-align:right;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px;min-height:132px}
+.card:hover:not([disabled]){border-color:var(--ink)}
+.card[disabled]{opacity:.5;cursor:not-allowed}
+.card.open{background:var(--tint)}
+.card .top{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;font-weight:600}
+.tag{padding:1px 8px;border:1.5px solid currentColor}
+.tag.t-talk{border-radius:12px} .tag.t-data{border-style:dashed} .tag.t-obs{border-radius:12px 2px}
+.card h3{font-size:1.12rem;font-weight:700}
+.card p{font-size:.86rem;color:var(--muted);line-height:1.45}
+.card .cost{margin-top:auto;font-size:.82rem;font-weight:600}
+
+/* reader */
+.reader h2{font-size:1.6rem;font-weight:700}
+.talk{display:flex;flex-direction:column;gap:12px}
+.talk .q{color:var(--muted);font-size:.95rem;padding-inline-start:14px;border-inline-start:2px solid var(--line)}
+.talk .a{background:var(--tint);padding:12px 16px;border-radius:3px 14px 14px 14px;max-width:60ch}
+.talk .a b{display:block;font-size:.8rem;color:var(--muted);font-weight:600}
+.notes{display:flex;flex-direction:column;gap:10px;font-family:var(--display);font-weight:500;font-size:1.05rem}
+.notes p{padding:8px 14px;border-inline-start:3px solid var(--line);max-width:64ch}
+.notes b{font-family:var(--body);font-size:.82rem;font-variant-numeric:tabular-nums;color:var(--muted);margin-inline-end:8px}
+.docp{border:1px solid var(--line);padding:18px 20px;background:var(--tint);display:flex;flex-direction:column;gap:10px}
+.docp h3{font-size:1.1rem}
+.docp li{margin-bottom:6px}
+.docp ol,.docp ul{margin:0;padding-inline-start:20px}
+.foot{font-size:.84rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.vbars{display:flex;gap:4px;align-items:flex-end}
+.vb{flex:1;min-width:0;text-align:center;font-size:.72rem;font-variant-numeric:tabular-nums}
+.vb .plot{height:140px;display:flex;align-items:flex-end;justify-content:center}
+.vb .plot i{display:block;width:72%;background:var(--ink);height:calc(var(--v) / 22 * 100%)}
+.vb.old .plot i{background:var(--hO)}
+.vb span{display:block;color:var(--muted)}
+.hb{display:grid;grid-template-columns:minmax(90px,170px) 1fr 3.2em;gap:10px;align-items:center;font-size:.92rem;padding:5px 0}
+.hb .tr{height:18px;background:var(--tint);border:1px solid var(--line)}
+.hb .tr i{display:block;height:100%;background:var(--ink);width:calc(var(--v) / var(--max) * 100%)}
+.hb b{font-variant-numeric:tabular-nums}
+.hb small{display:block;color:var(--muted);font-size:.78rem;line-height:1.3}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.84rem}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:50%}
+
+/* recommend */
+.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.act{text-align:right;border:1.5px solid var(--line);background:var(--paper);border-radius:3px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.act[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.act h3{font-size:1.08rem}
+.act p{font-size:.88rem;color:var(--muted);line-height:1.45}
+.act .meta{font-size:.8rem;font-weight:600;margin-top:auto}
+input[type=text]{font:inherit;color:inherit;width:100%;padding:10px 12px;background:var(--paper);border:1.5px solid var(--line);border-radius:3px}
+
+/* debrief */
+.result{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px}
+.result .big{font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,8vw,3.8rem);line-height:1;font-variant-numeric:tabular-nums}
+.split{display:flex;height:34px;direction:rtl;border-radius:2px;overflow:hidden}
+.split i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.8rem;font-weight:600;color:var(--paper);min-width:0}
+.trail{display:flex;flex-direction:column;gap:6px}
+.trow{display:grid;grid-template-columns:minmax(0,190px) 1fr;gap:12px;align-items:center;font-size:.86rem}
+.trow span{overflow-wrap:anywhere;line-height:1.3}
+@media (max-width:520px){ .trow{grid-template-columns:minmax(0,1fr);gap:2px} .arow{grid-template-columns:minmax(0,1fr)} }
+.audit{display:flex;flex-direction:column}
+.arow{display:grid;grid-template-columns:5.4em minmax(0,1fr);gap:4px 14px;padding:11px 0;border-top:1px solid var(--line)}
+.arow .st{font-size:.78rem;font-weight:600}
+.arow.miss .st{color:var(--stamp)}
+.arow h3{font-family:var(--body);font-size:.98rem;font-weight:600}
+.arow p{font-size:.9rem;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pill{font-size:.76rem;font-weight:600;padding:0 8px;border-radius:10px;border:1.5px solid var(--c);color:var(--ink)}
+.check{padding:12px 16px;border-inline-start:4px solid var(--line);background:var(--tint)}
+.check.ok{border-color:var(--hS)} .check.weak{border-color:var(--hK)} .check.none{border-color:var(--stamp)}
+.qs{margin:0;padding-inline-start:22px;max-width:66ch} .qs li{margin-bottom:8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+h2.sec{font-size:1.35rem;font-weight:700}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+
+<div id="app" dir="rtl" lang="he"></div>
+
+<script>
+(function(){
+document.documentElement.lang='he'; document.documentElement.dir='rtl';
+var BUDGET=8;
+var H={K:{n:'חסר ידע',d:'הנציגים לא שולטים במערכת נתיב',c:'var(--hK)'},
+       S:{n:'המערכת מכשילה',d:'גם מי שיודע מתקשה לעשות נכון',c:'var(--hS)'},
+       T:{n:'משתלם אחרת',d:'המדדים מתגמלים מהירות, לא דיוק',c:'var(--hT)'},
+       M:{n:'המדד מטעה',d:'חלק מהעלייה נובע מאופן הספירה',c:'var(--hM)'}};
+var HK=['K','S','T','M'];
+var TYPES={data:'נתונים',talk:'שיחה',doc:'מסמך',obs:'תצפית'};
+function hrs(n){return n===1?'שעה':n===2?'שעתיים':n+' שעות'}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+function talk(who,turns){return '<div class="talk">'+turns.map(function(t){
+  return '<p class="q">'+t[0]+'</p><div class="a"><b>'+who+'</b>'+t[1]+'</div>'}).join('')+'</div>'}
+function hbars(rows,max){return rows.map(function(r){
+  return '<div class="hb"><div>'+r[0]+(r[2]?'<small>'+r[2]+'</small>':'')+'</div><div class="tr"><i style="--v:'+r[1]+';--max:'+max+'"></i></div><b>'+r[1]+'%</b></div>'}).join('')}
+
+var E=[
+{id:'trend',t:'data',cost:1,title:'תיקים חוזרים לפי חודש',tease:'העלייה הייתה הדרגתית או בבת אחת?',
+ fx:{S:1,M:1,K:-1},read:'קפיצה ביום אחד, ומאז שיעור יציב חצי שנה. פער ידע היה אמור להצטמצם ככל שהנציגים צוברים ניסיון.',
+ body:function(){var m=[['נוב׳',6.1,1],['דצמ׳',5.8,1],['ינו׳',6.3,1],['פבר׳',5.9,1],['מרץ',6.2,1],['אפר׳',6.0,1],['מאי',18.4],['יוני',19.6],['יולי',18.9],['אוג׳',19.2],['ספט׳',19.5],['אוק׳',19.0]];
+  return '<div class="vbars">'+m.map(function(x){return '<div class="vb'+(x[2]?' old':'')+'"><div>'+x[1]+'</div><div class="plot"><i style="--v:'+x[1]+'"></i></div><span>'+x[0]+'</span></div>'}).join('')+'</div>'+
+  '<p class="foot">שיעור התיקים החוזרים מתוך כלל התיקים שנסגרו, באחוזים. עד אפריל: המערכת הישנה, "מסלול". מ-1 במאי: נתיב. מקור: דוח BI חודשי.</p>'}},
+{id:'bytype',t:'data',cost:2,title:'פילוח לפי סוג תביעה',tease:'איפה בדיוק חוזרים התיקים?',
+ fx:{S:1,K:-1},read:'הבעיה מרוכזת בסוג תביעה אחד. קורס כללי על המערכת מכוון רחב בהרבה מהמקום שבו התיקים נופלים.',
+ body:function(){return hbars([['נזקי מים',44,'24% מהתיקים'],['פריצה וגניבה',13,'21% מהתיקים'],['נזקי טבע',11,'15% מהתיקים'],['צד שלישי',10,'22% מהתיקים'],['שבר זכוכית',9,'18% מהתיקים']],50)+
+  '<p class="foot">שיעור התיקים החוזרים בכל סוג תביעה, מאי עד אוקטובר. ב-81% מתיקי המים שחזרו, סיבת ההחזרה הרשומה היא "חסר דוח שרברב או חוות דעת שמאי".</p>'}},
+{id:'tenure',t:'data',cost:2,title:'פילוח לפי ותק',tease:'חדשים מול ותיקים.',
+ fx:{K:1},read:'החדשים טועים יותר, אבל גם נציגים עם שנים של ניסיון עומדים על 18%. ידע מסביר חלק, לא את הכול.',
+ body:function(){return hbars([['עד 4 חודשים',27,'22 נציגים'],['4 חודשים עד שנתיים',17,'41 נציגים'],['מעל שנתיים',18,'77 נציגים']],30)+
+  '<p class="foot">שיעור התיקים החוזרים לפי ותק הנציג, אוקטובר. 22 הנציגים החדשים גויסו אחרי העלייה לאוויר.</p>'}},
+{id:'moti',t:'talk',cost:1,title:'מוטי',tease:'ראש צוות, פתח תקווה. 14 שנה בחברה.',
+ fx:{K:1,T:1},read:'מוטי בטוח שזה ידע, והוא גם המקור של גלית. המשפט על הבונוס נאמר בדרך אגב, וקל לפספס אותו.',
+ body:function(){return talk('מוטי',[
+  ['מה לדעתך קרה מאז המעבר לנתיב?','מה קרה? עשו להם הדרכה של שעתיים, וחצי מהם היו עם הראש בטלפון. הם לא מכירים את המערכת. כל יום אני מסביר את אותו דבר מחדש.'],
+  ['מה למשל?','איפה מצרפים מסמכים, בעיקר. שוכחים לצרף, ואז התיק חוזר.'],
+  ['שוכחים, או לא יודעים?','מה זה משנה? בסוף המסמך לא שם. וגם, מאז הבונוס החדש כולם רצים לסגור. אבל מי שמכיר את המערכת כמו שצריך יכול לרוץ וגם לסגור נכון.']])}},
+{id:'orit',t:'talk',cost:1,title:'אורית',tease:'נציגה ותיקה. תשע שנים במוקד.',
+ fx:{S:1,T:1,K:-1},read:'אורית יודעת בדיוק מה נדרש, ועדיין מדלגת. המסך מאפשר את זה, והלוח על הקיר מתגמל את זה.',
+ body:function(){return talk('אורית',[
+  ['איך נתיב בשבילך, אחרי חצי שנה?','בסדר גמור. ברוב הדברים היא מהירה יותר מהמערכת הישנה.'],
+  ['ובתביעות נזקי מים?','שם זה סיפור אחר. דוח השרברב נמצא בלשונית השלישית, למטה. במערכת הישנה הוא היה במסך הראשון, ואי אפשר היה לסגור בלעדיו. נתיב נותנת לסגור גם בלי.'],
+  ['ואת יודעת שצריך אותו.','ברור שאני יודעת. אני זאת שמלמדת את החדשים. אבל כשיש ארבע עשרה שיחות בהמתנה והלוח על הקיר מראה שאני במקום השביעי, אני לא גוללת ללשונית השלישית. אם התיק יחזור, אסגור אותו שוב מחר.']])}},
+{id:'idan',t:'talk',cost:1,title:'עידן',tease:'נציג חדש. שלושה חודשים בתפקיד.',
+ fx:{K:1},read:'כאן יש פער ידע אמיתי, אצל 22 נציגים שקיבלו חפיפה מקוצרת. הוא נוגע לשיקול הדעת המקצועי, לא לכפתורים של נתיב.',
+ body:function(){return talk('עידן',[
+  ['איך הייתה הכניסה לתפקיד?','מהירה. אמרו שהחפיפה נמשכת שבועיים. בפועל קיבלתי שלושה ימים, כי היה עומס. את המערכת למדתי תוך כדי עבודה.'],
+  ['מה הכי קשה היום?','להבין מתי צריך שמאי ומתי מספיק דוח שרברב. יש טבלה בנוהל, אבל היא שלושה עמודים ואני לא מוצא אותה באמצע שיחה. אז אני מנחש, או שואל את אורית כשהיא פנויה.'],
+  ['קורס של יומיים על נתיב היה עוזר לך?','על נתיב? את הכפתורים אני מכיר. אני צריך מישהו שיעבור איתי על עשרה תיקים אמיתיים.']])}},
+{id:'obs',t:'obs',cost:3,title:'בוקר במוקד',tease:'שעתיים וחצי במשמרת, לצד הנציגים.',
+ fx:{S:1,T:1},read:'אף נציגה לא היססה איפה ללחוץ. הלשונית נסתרת, המערכת לא מתריעה, ומסך הדירוג מתעדכן כל רבע שעה.',
+ body:function(){return '<div class="notes">'+[
+  ['09:40','משמרת בוקר, פתח תקווה. 11 שיחות בהמתנה. על הקיר מסך גדול: "תיקים סגורים היום". דירוג שמי של כל הנציגים, מתעדכן כל רבע שעה.'],
+  ['09:52','נציגה עם שש שנות ותק פותחת תביעת נזקי מים. 11 לחיצות עד הסגירה. "מסמכים נדרשים" היא הלשונית השלישית, והשדה של דוח השרברב נמצא מתחת לקו הגלילה.'],
+  ['09:56','התיק נסגר בלי דוח. נתיב לא מתריעה. משך הטיפול: ארבע דקות.'],
+  ['10:10','על המסך שלה פתק צהוב בכתב יד: "מים = לשונית 3!!". שאלתי אם הוא עוזר. "כשיש לי זמן להסתכל עליו."'],
+  ['11:30','מתוך שבע תביעות מים שראיתי, שלוש נסגרו בלי דוח. באף אחת מהן הנציגה לא היססה איפה ללחוץ.']
+  ].map(function(n){return '<p><b>'+n[0]+'</b>'+n[1]+'</p>'}).join('')+'</div>'}},
+{id:'test',t:'doc',cost:1,title:'מבחן ידע על נתיב',tease:'נערך בספטמבר. 131 נבחנים.',
+ fx:{K:-1},read:'ציונים גבוהים מחלישים את הסבר הידע, אבל המבחן נערך בצוותים ועם חומר פתוח. זו ראיה חלשה לכל כיוון.',
+ body:function(){return '<div class="docp"><h3>סיכום מבחן ידע, מערכת נתיב</h3><ul><li>נבחנו 131 מתוך 140 נציגים.</li><li>ציון ממוצע: 88.</li><li>שאלה 7, "אילו מסמכים חובה לצרף לתביעת נזקי מים?": 91% ענו נכון.</li><li>שאלה 12, "מתי נדרשת חוות דעת שמאי?": 64% ענו נכון.</li></ul></div>'+
+  '<p class="foot">הערת מחלקת ההדרכה: המבחן נערך בצוותים, עם גישה חופשית לנהלים וללא הגבלת זמן.</p>'}},
+{id:'survey',t:'doc',cost:1,title:'סקר עובדים',tease:'אוקטובר. 118 משיבים.',
+ fx:{K:1,S:1},read:'74% רוצים הדרכה, וזה המספר שיצוטט בוועדה. רצון בהדרכה אינו אבחנה, והתשובות הפתוחות מספרות סיפור אחר.',
+ body:function(){return '<p class="small muted">שיעור המסכימים עם כל היגד:</p>'+hbars([['"הייתי רוצה הדרכה נוספת על נתיב"',74],['"יש לי את הכלים לעשות את העבודה כמו שצריך"',41],['"יש לי מספיק זמן לטפל בכל תיק ברמה שהייתי רוצה"',29]],100)+
+  '<div class="docp"><h3>מתוך התשובות הפתוחות</h3><ul><li>"הדרכה זה תמיד טוב, אבל היא לא תעזור אם לא יתקנו את מסך המסמכים."</li><li>"ההדרכה בעלייה לאוויר הייתה בדיחה. שעתיים."</li><li>"שיורידו כבר את הלוח מהקיר."</li></ul></div>'}},
+{id:'bonus',t:'doc',cost:1,title:'נוהל התגמול הרבעוני',tease:'בתוקף מ-1 במאי, יום העלייה לאוויר.',
+ fx:{T:1},read:'הבונוס נקבע לפי כמות בלבד, ותיק שחוזר ונסגר נספר פעמיים. מי שסוגר מהר ולא נכון מרוויח יותר.',
+ body:function(){return '<div class="docp"><h3>נוהל תגמול רבעוני, מוקד תביעות</h3><p class="small muted">בתוקף מ-1 במאי</p><ol><li>הבונוס הרבעוני ייקבע לפי מספר התיקים הסגורים ליום עבודה.</li><li>תיק שנפתח מחדש ונסגר ייספר כסגירה נוספת.</li><li>רכיב האיכות (דגימת תיקים בידי ראש הצוות) מושעה עם המעבר לנתיב, עד להטמעת מודול הבקרה.</li></ol></div>'+
+  '<p class="foot">בשולי המסמך, בכתב יד: "מודול הבקרה: טרם נקבע מועד".</p>'}},
+{id:'bi',t:'talk',cost:2,title:'תומר',tease:'אנליסט BI. האיש שמפיק את הדוח החודשי.',
+ fx:{M:1},read:'6% ו-19% לא מודדים את אותו דבר. לפי ההגדרה הישנה השיעור היום הוא כ-14%. הפער אמיתי, אבל קטן בחמש נקודות ממה שכולם חושבים.',
+ body:function(){return talk('תומר',[
+  ['איך מחושב שיעור התיקים החוזרים?','בנתיב? כל תיק שהסטטוס שלו עובר מ"סגור" בחזרה ל"בטיפול". זה נספר אוטומטית.'],
+  ['ובמערכת הישנה?','שם זה היה ידני. ראש הצוות סימן תיק כחוזר רק אם לא הצליחו להשלים אותו באותו יום. אם הנציג הרים טלפון ללקוח והשלים את המסמך, זה לא נספר.'],
+  ['אז 6% ו-19% לא מודדים את אותו דבר.','לא בדיוק. הרצתי פעם את ההגדרה הישנה על הנתונים של היום, ויצא בערך 14%. כתבתי את זה בהערת שוליים בדוח של יוני. אף אחד לא שאל.']])}},
+{id:'sites',t:'data',cost:2,title:'פתח תקווה מול באר שבע',tease:'שני מוקדים, אותה מערכת.',
+ fx:{S:1,T:1,K:-1},read:'אותה מערכת, אותה הדרכה, אותו בונוס, ותוצאה שונה לגמרי. ההבדל: דף בדיקה של עמוד אחד, ואין מסך דירוג.',
+ body:function(){return '<p class="small muted">כלל התיקים:</p>'+hbars([['פתח תקווה',23,'96 נציגים'],['באר שבע',11,'44 נציגים']],60)+
+  '<p class="small muted" style="margin-top:10px">תביעות נזקי מים בלבד:</p>'+hbars([['פתח תקווה',58],['באר שבע',14]],60)+
+  '<p class="foot">שני המוקדים עובדים באותה מערכת, קיבלו את אותה הדרכה בעלייה לאוויר וכפופים לאותו נוהל תגמול. הערת האנליסט: בבאר שבע חילקה ראש הצוות, דנה, כבר במאי דף בדיקה של עמוד אחד לתביעות מים. במוקד בבאר שבע אין מסך דירוג.</p>'}},
+{id:'it',t:'talk',cost:1,title:'רונן',tease:'אחראי נתיב באגף מערכות מידע.',
+ fx:{S:1},read:'המערכת בנויה כך בכוונה: ביקשו כמה שפחות חסימות. אפשר לתקן, אבל לא לפני פברואר, ומישהו בשירות יצטרך לחתום.',
+ body:function(){return talk('רונן',[
+  ['למה נתיב מאפשרת לסגור תביעת מים בלי דוח שרברב?','כי כך אפיינו אותה. באפיון ביקשו במפורש כמה שפחות חסימות, כדי שנציג לא ייתקע מול לקוח. המערכת עושה בדיוק מה שהוזמן.'],
+  ['אפשר להפוך את השדה לחובה?','טכנית זה שינוי קטן. מעשית יש לי תור של ארבעים בקשות וגרסה אחת ברבעון. אם זה ייכנס לתעדוף, פברואר. ומישהו בשירות יצטרך לחתום שמקובל עליו שנציג ייתקע באמצע שיחה.'],
+  ['ומה לגבי התרעה, בלי חסימה?','אותו תור. אבל את זה קל יותר לאשר.']])}}
+];
+var EV={}; E.forEach(function(e){EV[e.id]=e});
+
+var A=[
+{id:'course',n:'קורס רענון לכל המוקד',d:'יומיים על נתיב ל-140 הנציגים. מה שגלית ביקשה.',m:'280 ימי עבודה מחוץ למוקד',eff:1,sup:['moti','survey','idan'],
+ out:'הקורס קיבל משוב של 4.6 מתוך 5. שיעור התיקים החוזרים ירד מעט, ואחרי חודש כמעט חזר למקומו. בוועדה הבאה ישאלו למה.'},
+{id:'newhires',n:'חונכות והשלמה לחדשים',d:'22 הנציגים החדשים עוברים עם חונך על תיקים אמיתיים.',m:'שבועיים, בתוך המשמרות',eff:1.5,sup:['tenure','idan'],
+ out:'אצל 22 החדשים השיעור ירד מ-27% ל-19%. הם הפסיקו לנחש מתי צריך שמאי. התמונה הכללית של המוקד כמעט לא זזה.'},
+{id:'jobaid',n:'דף בדיקה לתביעות מים',d:'עמוד אחד ליד המסך, בנוסח שכבר עובד בבאר שבע.',m:'שבועיים, כמעט בלי עלות',eff:2.5,sup:['sites','orit','obs','bytype'],
+ out:'הדף הוטמע בפתח תקווה בתוך שבועיים. בתביעות מים השיעור ירד בחדות. בשעות העומס עדיין מדלגים עליו.'},
+{id:'sysfix',n:'תיקון במערכת',d:'דוח השרברב הופך לשדה חובה, או לפחות להתרעה לפני סגירה.',m:'לא לפני פברואר',eff:0,sup:['orit','obs','it','bytype'],
+ out:'הבקשה נכנסה לתוכנית העבודה של הרבעון הבא. בשלושת החודשים הראשונים לא השתנה דבר במוקד. כשהשדה ייחסם, רוב הבעיה בתביעות מים תיעלם.'},
+{id:'bonus',n:'שינוי מודל הבונוס',d:'סגירה חוזרת לא נספרת, ורכיב האיכות חוזר.',m:'רבעון, ודורש את גלית',eff:2.5,sup:['bonus','obs','orit','moti'],
+ out:'סגירה חוזרת הפסיקה להיספר, ודגימת האיכות חזרה. שני ראשי צוותים התנגדו בקול. קצב הסגירה ירד ב-6%, והתיקים החוזרים ירדו יותר.'},
+{id:'metric',n:'יישור המדד',d:'מגדירים מחדש עם BI מה נספר כתיק חוזר, ומציגים להנהלה השוואה הוגנת.',m:'שבוע',eff:5,sup:['bi','trend'],
+ out:'ההנהלה ראתה השוואה לפי אותה הגדרה: 6% מול 14%, לא מול 19%. הלחץ ירד והדיון נעשה ענייני. לקוחות לא הרגישו שום שינוי.'}
+];
+var AV={}; A.forEach(function(a){AV[a.id]=a});
+
+var S;
+function fresh(){S={phase:'brief',hours:BUDGET,chips:{K:0,S:0,T:0,M:0},opened:[],trail:[],cur:null,acts:[],line:''}}
+fresh();
+function sum(c){return c.K+c.S+c.T+c.M}
+function snap(label){S.trail.push({label:label,c:{K:S.chips.K,S:S.chips.S,T:S.chips.T,M:S.chips.M}})}
+function same(a,b){return HK.every(function(k){return a[k]===b[k]})}
+function bar10(c){var p=10-sum(c);return '<div class="bar10" role="img" aria-label="חלוקת האסימונים">'+HK.map(function(k){return c[k]?'<i style="flex:'+c[k]+';background:'+H[k].c+'"></i>':''}).join('')+(p?'<i style="flex:'+p+'"></i>':'')+'</div>'}
+
+function header(){
+  var t='';for(var i=0;i<BUDGET;i++)t+='<i class="'+(i<S.hours?'':'used')+'"></i>';
+  var clock=S.phase==='debrief'?'':'<div class="clock"><span>נותרו <b>'+S.hours+'</b> מתוך '+BUDGET+' שעות</span><div class="ticks" aria-hidden="true">'+t+'</div></div>';
+  return '<header class="bar"><div class="brand"><h1>תיק פתוח</h1><span>תיק 14/נ · שקד ביטוח, מוקד תביעות</span></div>'+clock+'</header>'}
+
+function board(cta){
+  var pool=10-sum(S.chips);
+  return '<section class="sheet board stack" style="gap:12px"><div><h2>מה לדעתכם קורה כאן?</h2><p class="small muted">עשרה אסימוני ביטחון. חלקו אותם בין ההסברים, ועדכנו בכל פעם שהתמונה משתנה.</p></div>'+bar10(S.chips)+'<div>'+
+  HK.map(function(k){return '<div class="hyp"><div class="nm"><i style="background:'+H[k].c+'"></i>'+H[k].n+'</div><div class="ds">'+H[k].d+'</div><div class="step">'+
+    '<button data-act="chip" data-h="'+k+'" data-d="-1" data-key="m'+k+'" aria-label="פחות ל'+H[k].n+'"'+(S.chips[k]?'':' disabled')+'>−</button><b>'+S.chips[k]+'</b>'+
+    '<button data-act="chip" data-h="'+k+'" data-d="1" data-key="p'+k+'" aria-label="יותר ל'+H[k].n+'"'+(pool?'':' disabled')+'>+</button></div></div>'}).join('')+
+  '</div><div class="pool"><span>עדיין פתוח</span><b>'+pool+'</b></div></section>'+(cta||'')}
+
+function brief(){
+  return '<div class="layout"><main class="stack"><section class="sheet stack">'+
+  '<p class="eyebrow">פנייה נכנסת · יום שני, 08:12</p>'+
+  '<div class="mail"><span class="stamp">דחוף</span><dl><dt>מאת</dt><dd>גלית ברק, סמנכ"לית שירות ותביעות</dd><dt>נושא</dt><dd>קורס רענון לנתיב. צריך מתווה עד יום חמישי</dd></dl>'+
+  '<p>שלום,</p><p>מאז שעלינו לנתיב לפני חצי שנה, שיעור התיקים החוזרים קפץ מ-6% ל-19%. כל תיק חוזר הוא לקוח שמחכה עוד שבוע לכסף שלו. ההנהלה כבר שואלת שאלות.</p>'+
+  '<p>דיברתי עם ראשי הצוותים והתמונה ברורה: הנציגים לא שולטים במערכת. ההדרכה בעלייה לאוויר הייתה קצרה מדי.</p>'+
+  '<p>אישרתי תקציב לקורס רענון של יומיים לכל 140 הנציגים. אני צריכה מתווה לוועדת ההיגוי ביום חמישי.</p>'+
+  '<p>יש גישה לכל מה שצריך: דוחות, אנשים, המוקד עצמו. רק שלא נגרור את זה.</p><p>גלית</p></div>'+
+  '<div class="facts"><div><b>6% ← 19%</b><span>תיקים חוזרים, לפני ואחרי נתיב</span></div><div><b>140</b><span>נציגים בשני מוקדים</span></div><div><b>280</b><span>ימי עבודה שהקורס ידרוש</span></div></div>'+
+  '<p class="small muted">תיק חוזר: תיק תביעה שנסגר, ונפתח מחדש כי חסר בו מסמך או נתון.</p></section>'+
+  '<section class="sheet stack"><h2 class="sec">יש לכם יום עבודה אחד</h2>'+
+  '<p class="lede">בתיק מחכות 13 ראיות: נתונים, מסמכים, שיחות ותצפית. כל אחת עולה שעה עד שלוש, ויש לכם שמונה שעות. לא תספיקו הכול.</p>'+
+  '<p class="lede">לפני שפותחים משהו, חלקו את האסימונים לפי מה שאתם חושבים כרגע. בסוף תראו איך החשיבה שלכם זזה.</p></section></main>'+
+  '<aside>'+board('<button class="btn go wide" data-act="start" data-key="start">פותחים את התיק</button>')+'</aside></div>'}
+
+function index(){
+  var left=E.filter(function(e){return S.opened.indexOf(e.id)<0&&e.cost<=S.hours}).length;
+  return '<div class="layout"><main class="stack"><div><h2 class="sec">הראיות בתיק</h2><p class="muted small">פתחתם '+S.opened.length+' מתוך 13. ראיה שנפתחה אפשר לקרוא שוב בלי עלות.</p></div><div class="grid">'+
+  E.map(function(e){var op=S.opened.indexOf(e.id)>=0, dis=!op&&e.cost>S.hours;
+    return '<button class="card'+(op?' open':'')+'" data-act="open" data-id="'+e.id+'" data-key="e'+e.id+'"'+(dis?' disabled':'')+'><div class="top"><span class="tag t-'+e.t+'">'+TYPES[e.t]+'</span><span>'+(op?'נפתח ✓':'')+'</span></div><h3>'+e.title+'</h3><p>'+e.tease+'</p><span class="cost">'+(op?'קריאה חוזרת':dis?'אין מספיק שעות':hrs(e.cost))+'</span></button>'}).join('')+
+  '</div></main><aside>'+board('<button class="btn '+(left?'':'go ')+'wide" data-act="torec" data-key="torec">'+(left?'מספיק לי. עוברים להמלצה':'נגמר הזמן. עוברים להמלצה')+'</button>')+'</aside></div>'}
+
+function reader(){var e=EV[S.cur];
+  return '<div class="layout"><main><article class="sheet reader stack"><div class="row" style="justify-content:space-between"><span class="tag t-'+e.t+' small" style="font-weight:600">'+TYPES[e.t]+'</span><span class="small muted">'+hrs(e.cost)+'</span></div>'+
+  '<div><h2>'+e.title+'</h2><p class="muted">'+e.tease+'</p></div>'+e.body()+'</article></main>'+
+  '<aside>'+board('<p class="small muted">הראיה הזאת משנה משהו? עדכנו את הלוח לפני שממשיכים. מותר גם להשאיר אותו כמו שהוא.</p><button class="btn go wide" data-act="back" data-key="back">חזרה לתיק</button>')+'</aside></div>'}
+
+function recommend(){
+  return '<div class="layout"><main class="stack"><section class="sheet stack"><p class="eyebrow">יום חמישי · ועדת ההיגוי</p><h2 class="sec">מה אתם ממליצים לגלית?</h2>'+
+  '<p class="lede">בחרו מהלך אחד או שניים. לכל אחד מהם אפשר למצוא הצדקה, והשאלה היא על מה ההמלצה שלכם נשענת.</p>'+
+  '<div class="acts">'+A.map(function(a){var on=S.acts.indexOf(a.id)>=0;
+    return '<button class="act" data-act="pick" data-id="'+a.id+'" data-key="a'+a.id+'" aria-pressed="'+on+'"><h3>'+a.n+'</h3><p>'+a.d+'</p><span class="meta">'+a.m+'</span></button>'}).join('')+'</div>'+
+  '<label class="stack" style="gap:6px" for="line"><span class="small" style="font-weight:600">המשפט הראשון שתגידו לגלית (לא חובה)</span><input type="text" id="line" maxlength="160" value="'+esc(S.line)+'" placeholder="גלית, לפני שמדברים על הקורס..."></label>'+
+  '<div class="row"><button class="btn go" data-act="submit" data-key="submit"'+(S.acts.length?'':' disabled')+'>מגישים לוועדה</button><button class="btn" data-act="toindex" data-key="toindex">חזרה לתיק</button><span class="small muted">'+(S.acts.length?'נבחרו '+S.acts.length+' מתוך 2':'בחרו לפחות מהלך אחד')+'</span></div>'+
+  '</section></main><aside>'+board('')+'</aside></div>'}
+
+function calc(){
+  var has=function(x){return S.acts.indexOf(x)>=0}, t=0;
+  S.acts.forEach(function(a){t+=AV[a].eff});
+  if(has('course')&&has('newhires'))t-=1;
+  if(has('jobaid')&&has('bonus'))t+=1.5;
+  var felt=t-(has('metric')?5:0);
+  return {final:Math.round((19-t)*10)/10,felt:Math.round(felt*10)/10,has:has}}
+
+function debrief(){
+  var r=calc(), names=S.acts.map(function(a){return AV[a].n});
+  var extra='';
+  if(r.has('jobaid')&&r.has('bonus'))extra='<p>השילוב עבד טוב יותר מכל מהלך לבדו: כשהמהירות הפסיקה להשתלם, לנציגים היה זמן להשתמש בדף הבדיקה.</p>';
+  if(r.has('course')&&r.has('newhires'))extra='<p>שני המהלכים טיפלו באותו חלק קטן של הבעיה, ולכן כמעט לא הצטברו.</p>';
+  if(r.has('sysfix')&&r.has('jobaid'))extra='<p>דף הבדיקה גישר על התקופה שעד תיקון המערכת. אחרי פברואר הוא כבר כמעט לא יידרש.</p>';
+  // trail analysis
+  var big=null,bigv=0,T=S.trail;
+  for(var i=1;i<T.length;i++){var d=0;HK.forEach(function(k){d+=Math.abs(T[i].c[k]-T[i-1].c[k])});d+=Math.abs(sum(T[i].c)-sum(T[i-1].c));d/=2;if(d>bigv){bigv=d;big=T[i].label}}
+  var first=T[0].c,last=T[T.length-1].c,pool=10-sum(last);
+  var tl=big?'הראיה שהזיזה אתכם הכי הרבה: <b>'+big+'</b> ('+bigv+' אסימונים).':'הלוח שלכם לא זז מאז הימור הפתיחה. שווה לשאול אם הראיות באמת לא שינו דבר, או שלא עצרתם לעדכן.';
+  if(pool)tl+=' סיימתם עם '+pool+' אסימונים פתוחים. גם זו עמדה מקצועית.';
+  if(first.K>=5&&last.K>=5)tl+=' פתחתם עם רוב האסימונים על חוסר ידע, ושם גם סיימתם.';
+  S.summary='תיק פתוח · שקד ביטוח\nפתחתי '+S.opened.length+' ראיות מתוך 13 ביום עבודה אחד.\nהמלצתי: '+names.join(' + ')+'.\nשלושה חודשים אחר כך: תיקים חוזרים 19% ← '+r.final+'%.'+(big?'\nהראיה שהזיזה אותי הכי הרבה: '+big+'.':'');
+
+  return '<main class="stack" style="gap:20px">'+
+  '<section class="sheet stack"><p class="eyebrow">שלושה חודשים אחר כך</p>'+
+  '<div class="result"><span class="big">19% ← '+r.final+'%</span><span class="muted">שיעור התיקים החוזרים המדווח</span></div>'+
+  '<p class="lede">מתוך הירידה, <b>'+r.felt+' נקודות</b> הן שיפור שלקוחות מרגישים בפועל.</p>'+
+  (S.line?'<p class="muted">פתחתם את הישיבה במשפט: "'+esc(S.line)+'"</p>':'')+
+  S.acts.map(function(a){return '<div><h3 style="font-size:1.1rem">'+AV[a].n+'</h3><p style="max-width:66ch">'+AV[a].out+'</p></div>'}).join('')+extra+'</section>'+
+
+  '<section class="sheet stack"><h2 class="sec">על מה ההמלצה נשענה</h2>'+
+  S.acts.map(function(a){var hit=AV[a].sup.filter(function(x){return S.opened.indexOf(x)>=0}).map(function(x){return EV[x].title});
+    var cls=hit.length>=2?'ok':hit.length?'weak':'none';
+    var txt=hit.length>=2?'נשען על ראיות שפתחתם: '+hit.join(', ')+'.':hit.length?'נשען על ראיה אחת שפתחתם: '+hit[0]+'. מספיק כדי להעלות את זה, פחות כדי להתחייב.':'לא פתחתם אף ראיה שתומכת במהלך הזה. ייתכן שהוא נכון, אבל בוועדה זו תהיה הנחה ולא ממצא.';
+    return '<div class="check '+cls+'"><b>'+AV[a].n+'</b><p>'+txt+'</p></div>'}).join('')+'</section>'+
+
+  '<section class="sheet stack"><h2 class="sec">ממה הפער היה עשוי</h2>'+
+  '<p style="max-width:66ch">לתיק הזה אין הסבר אחד. כך מתפרקות 19 הנקודות בדיעבד:</p>'+
+  '<div class="split" role="img" aria-label="פירוק הפער"><i style="flex:6;background:var(--hO);color:var(--ink)">6</i><i style="flex:5;background:var(--hM)">5</i><i style="flex:4;background:var(--hS)">4</i><i style="flex:2.5;background:var(--hT)">2.5</i><i style="flex:1.5;background:var(--hK)">1.5</i></div>'+
+  '<div class="legend"><span><i style="background:var(--hO)"></i>היה שם תמיד</span>'+['M','S','T','K'].map(function(k){return '<span><i style="background:'+H[k].c+'"></i>'+H[k].n+'</span>'}).join('')+'</div>'+
+  '<p style="max-width:66ch">הקורס שגלית ביקשה מכוון לפרוסה הקטנה ביותר, וגם בה הוא מחטיא: לחדשים חסר שיקול דעת בתיקים אמיתיים, לא היכרות עם כפתורים.</p></section>'+
+
+  '<section class="sheet stack"><h2 class="sec">מסלול החשיבה שלכם</h2><p style="max-width:66ch">'+tl+'</p>'+
+  '<div class="trail">'+T.map(function(s){return '<div class="trow"><span>'+s.label+'</span>'+bar10(s.c)+'</div>'}).join('')+'</div>'+
+  '<div class="legend">'+HK.map(function(k){return '<span><i style="background:'+H[k].c+'"></i>'+H[k].n+'</span>'}).join('')+'<span><i style="background:var(--hO)"></i>עדיין פתוח</span></div></section>'+
+
+  '<section class="sheet stack"><h2 class="sec">מה היה בתיק</h2><p class="muted small">כל 13 הראיות, כולל אלה שנשארו סגורות. הסימון מראה איזה הסבר כל ראיה מחזקת (▲) או מחלישה (▼).</p><div class="audit">'+
+  E.map(function(e){var op=S.opened.indexOf(e.id)>=0;
+    return '<div class="arow'+(op?'':' miss')+'"><span class="st">'+(op?'נפתח':'נשאר סגור')+'</span><div><h3>'+e.title+' <span class="muted" style="font-weight:400">· '+TYPES[e.t]+', '+hrs(e.cost)+'</span></h3><p>'+e.read+'</p><div class="pills">'+
+    HK.filter(function(k){return e.fx[k]}).map(function(k){return '<span class="pill" style="--c:'+H[k].c+'">'+(e.fx[k]>0?'▲':'▼')+' '+H[k].n+'</span>'}).join('')+'</div></div></div>'}).join('')+'</div></section>'+
+
+  '<section class="sheet stack"><h2 class="sec">לדיון</h2><ol class="qs"><li>אילו התחלתם מחדש, איזו ראיה הייתם פותחים ראשונה, ולמה דווקא אותה?</li><li>גלית כבר אישרה תקציב לקורס. איך אומרים לה שהוא יפתור חלק קטן מהבעיה, בלי שהיא תאבד פנים בוועדה?</li><li>באיזה מצב קורס הרענון היה דווקא ההמלצה הנכונה? אילו ראיות היו צריכות להיראות אחרת?</li></ol>'+
+  '<div class="row"><button class="btn go" data-act="restart" data-key="restart">חוקרים שוב, אחרת</button><button class="btn" data-act="copy" data-key="copy">העתקת סיכום לשיתוף</button><span class="small muted" id="copied" aria-live="polite"></span></div>'+
+  '<p class="small muted">תרחיש בדוי. החברה, האנשים והנתונים הומצאו לצורכי למידה.</p></section></main>'}
+
+var app=document.getElementById('app');
+function render(top){
+  var k=document.activeElement&&document.activeElement.dataset?document.activeElement.dataset.key:null;
+  var v=S.phase==='brief'?brief():S.phase==='index'?index():S.phase==='reader'?reader():S.phase==='recommend'?recommend():debrief();
+  app.innerHTML=header()+v;
+  if(top){window.scrollTo(0,0)} else if(k){var el=app.querySelector('[data-key="'+k+'"]');if(el&&!el.disabled)el.focus({preventScroll:true})}}
+
+app.addEventListener('input',function(ev){if(ev.target.id==='line')S.line=ev.target.value});
+app.addEventListener('click',function(ev){
+  var b=ev.target.closest('[data-act]'); if(!b||b.disabled)return;
+  var a=b.dataset.act,id=b.dataset.id;
+  if(a==='chip'){var d=+b.dataset.d,h=b.dataset.h; if(d>0&&sum(S.chips)>=10)return; if(d<0&&S.chips[h]<=0)return; S.chips[h]+=d; return render()}
+  if(a==='start'){snap('הימור פתיחה');S.phase='index';return render(true)}
+  if(a==='open'){var e=EV[id]; if(S.opened.indexOf(id)<0){if(e.cost>S.hours)return;S.hours-=e.cost;S.opened.push(id);S.fresh=true}else S.fresh=false; S.cur=id;S.phase='reader';return render(true)}
+  if(a==='back'){if(S.fresh)snap(EV[S.cur].title); else if(!same(S.chips,S.trail[S.trail.length-1].c))snap('קריאה חוזרת: '+EV[S.cur].title); S.phase='index';return render(true)}
+  if(a==='torec'){S.phase='recommend';return render(true)}
+  if(a==='toindex'){S.phase='index';return render(true)}
+  if(a==='pick'){var i=S.acts.indexOf(id); if(i>=0)S.acts.splice(i,1); else {if(S.acts.length>=2)S.acts.shift();S.acts.push(id)} return render()}
+  if(a==='submit'){if(!S.acts.length)return; if(!same(S.chips,S.trail[S.trail.length-1].c))snap('לפני ההמלצה'); S.phase='debrief';return render(true)}
+  if(a==='restart'){fresh();return render(true)}
+  if(a==='copy'){var out=document.getElementById('copied');
+    var fb=function(){var ta=document.createElement('textarea');ta.value=S.summary;ta.style.cssText='width:100%;min-height:110px;margin-top:8px;font:inherit';b.parentNode.after(ta);ta.select();out.textContent='סמנו והעתיקו את הטקסט.'};
+    try{navigator.clipboard.writeText(S.summary).then(function(){out.textContent='הסיכום הועתק.'},fb)}catch(x){fb()}}
+});
+render(true);
+})();
+</script>
+</html>
