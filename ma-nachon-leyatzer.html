@@ -120,10 +120,13 @@ h1,h2,p{margin:0;text-wrap:balance}
 /* chrome */
 #bar{position:absolute;inset:auto 0 0 0;height:calc(var(--u)*.5);background:var(--line);display:flex;direction:rtl}
 #bar i{display:block;height:100%;background:var(--glow);transition:width .5s}
-#nav{position:absolute;bottom:calc(var(--u)*1.6);left:calc(var(--u)*2);display:flex;gap:calc(var(--u)*.8);direction:ltr;opacity:.35;transition:opacity .3s}
-#nav:hover,#nav:focus-within{opacity:1}
-#nav button{width:calc(var(--u)*4);height:calc(var(--u)*4);min-width:36px;min-height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:max(calc(var(--u)*1.8),16px);background:var(--chrome)}
-#notes{position:absolute;inset:auto 0 calc(var(--u)*.5) 0;background:var(--veil);border-top:1px solid var(--line);padding:calc(var(--u)*1.4) calc(var(--u)*4) calc(var(--u)*1.4) calc(var(--u)*24);font-size:max(calc(var(--u)*1.9),15px);line-height:1.45;text-align:start;display:flex;gap:1.2em;align-items:baseline}
+#nav{position:absolute;inset:auto 0 calc(var(--u)*.5) 0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:calc(var(--u)*1) calc(var(--u)*2);pointer-events:none;z-index:2}
+#nav .grp{display:flex;flex-wrap:wrap;gap:max(calc(var(--u)*.7),6px);pointer-events:auto}
+#nav button,.pill{height:max(calc(var(--u)*3.6),36px);padding:0 max(calc(var(--u)*1.4),12px);border-radius:2em;border:1px solid var(--line);background:var(--chrome);font-size:max(calc(var(--u)*1.5),14px);font-weight:700;display:inline-flex;align-items:center;gap:.45em}
+#nav .aux button{opacity:.6} #nav .aux button:hover,#nav .aux button:focus-visible{opacity:1}
+#nav .pri{background:var(--ink);color:var(--bg);border-color:transparent;padding:0 max(calc(var(--u)*2.2),18px)}
+.pill{position:absolute;top:calc(var(--u)*2);right:calc(var(--u)*3)}
+#notes{position:absolute;inset:auto 0 calc(var(--u)*6.2) 0;background:var(--veil);border-top:1px solid var(--line);padding:calc(var(--u)*1.4) calc(var(--u)*4);font-size:max(calc(var(--u)*1.9),15px);line-height:1.45;text-align:start;display:flex;gap:1.2em;align-items:baseline}
 #notes b{color:var(--hlc);font-variant-numeric:tabular-nums;white-space:nowrap}
 .modal{position:absolute;inset:0;background:var(--veil);display:grid;place-items:center;z-index:5;padding:16px}
 .box{width:min(520px,100%);background:var(--boxbg);border:1px solid var(--line);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:14px;text-align:start;font-size:16px;max-height:100%;overflow:auto}
@@ -137,25 +140,15 @@ h1,h2,p{margin:0;text-wrap:balance}
 .box dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:15px} .box dt{font-weight:700;direction:ltr;text-align:right;color:var(--hlc)} .box dd{margin:0}
 .msg{font-size:14px;min-height:1.4em}
 
-/* pastel: ice-cream parlour. Light ground, strong sherbet colours, plum ink. */
-html.pastel{--bg:#FFF9F3; --bg2:#FFEAF4; --ink:#3B2A52; --dim:#7B6A92; --line:rgba(59,42,82,.17); --panel:rgba(255,255,255,.74);
-  --coral:#FF6F91; --teal:#2FD3B5; --sun:#FFC43D; --violet:#A17BFF; --on:#3B2A52; --hlc:#F0387F; --tlc:#0E9F8A; --crc:#F2496B;
-  --chrome:rgba(255,255,255,.8); --veil:rgba(59,42,82,.55); --boxbg:#FFFDFB; --field:#FFF3F8; color-scheme:light}
-html.pastel #stage{background:
-  radial-gradient(38% 46% at 92% 6%,#FFB3CF 0,transparent 70%),radial-gradient(34% 42% at 6% 10%,#B9E6FF 0,transparent 70%),
-  radial-gradient(40% 46% at 4% 96%,#BDF3DD 0,transparent 70%),radial-gradient(36% 44% at 96% 94%,#FFE08A 0,transparent 70%),
-  radial-gradient(30% 34% at 50% 104%,#D9C7FF 0,transparent 70%),var(--bg)}
-html.pastel #stage[data-seg="3"]{--glow:#FF8A3D}
-html.pastel .xl{background:linear-gradient(100deg,#F0387F,#FF8A3D 22%,#F2B400 40%,#12B89C 58%,#3D9BFF 78%,#9B6BFF);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
-html.pastel .xl .hl,html.pastel .xl .tl{color:transparent}
-html.pastel .badge,html.pastel .tool,html.pastel .card,html.pastel .pane,html.pastel .qcard,html.pastel .seg{box-shadow:0 calc(var(--u)*.6) calc(var(--u)*2) rgba(59,42,82,.1)}
-html.pastel #vote .tool:nth-child(1),html.pastel .bits span:nth-child(5n+1){background:#FFD0DE}
-html.pastel #vote .tool:nth-child(2),html.pastel .bits span:nth-child(5n+2){background:#FFE3B0}
-html.pastel #vote .tool:nth-child(3),html.pastel .bits span:nth-child(5n+3){background:#C4F3E0}
-html.pastel #vote .tool:nth-child(4),html.pastel .bits span:nth-child(5n+4){background:#C6E6FF}
-html.pastel #vote .tool:nth-child(5),html.pastel .bits span:nth-child(5n+5){background:#DFD2FF}
-html.pastel .bits .ic{color:var(--ink)}
-html.pastel .chip.mid{background:#FFE3B0} html.pastel .flip .chip.ctool{background:#DFD2FF} html.pastel .qcard:nth-child(1) .num{background:#FF8FB0} html.pastel .qcard:nth-child(3) .num{background:#7FD9FF}
+/* pastel: one flat ice-cream colour, black type, white cards, a single raspberry accent. */
+html.pastel{--bg:#FFD9E4; --bg2:var(--bg); --ink:#141414; --dim:#4D4D4D; --line:rgba(0,0,0,.16); --panel:#FFFFFF; --acc:#D81B60;
+  --coral:var(--acc); --teal:var(--acc); --sun:var(--acc); --violet:var(--acc); --on:#FFFFFF; --hlc:var(--acc); --tlc:var(--acc); --crc:var(--acc);
+  --chrome:#FFFFFF; --veil:rgba(20,20,20,.55); --boxbg:#FFFFFF; --field:#F6F6F6; color-scheme:light}
+html.pastel #stage,html.pastel #stage[data-seg]{background:var(--bg);--glow:var(--acc)}
+html.pastel .badge{box-shadow:none}
+html.pastel .dial .tool.pick{box-shadow:none}
+html.pastel .card:first-child,html.pastel .pane:first-child{--c:#5A5A5A}
+html.pastel #notes{background:#FFFFFF}
 .box input.he{direction:rtl;text-align:right} .box.wide{width:min(780px,100%);gap:12px} .box .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px} .box ol{margin:0;padding-inline-start:20px;font-size:14px;color:var(--dim)} .box .chk{flex-direction:row;align-items:center;gap:8px}
 /* presenter window */
 #pres{position:fixed;inset:0;direction:rtl;background:#070A1E;color:var(--ink);padding:24px;display:flex;flex-direction:column;gap:18px;font-size:18px;overflow:auto}
@@ -226,9 +219,9 @@ html.pastel .chip.mid{background:#FFE3B0} html.pastel .flip .chip.ctool{backgrou
 <section class="scene dial" data-seg="2" data-name="חוגת הצורך">
   <h1 class="lg" style="font-size:calc(var(--u)*3.8)">משנים את הצורך. <span class="tl">מה קורה לכלי?</span></h1>
   <div class="axes" id="axes">
-    <div class="axis"><span class="q"><span class="kbd">1</span>מה הם יודעים?</span><div class="seg"><button data-ax="0" data-v="0">לא יודעים מה לעשות</button><button data-ax="0" data-v="1">יודעים, אבל לא מצליחים בלחץ</button></div></div>
-    <div class="axis"><span class="q"><span class="kbd">2</span>מה חסר להם?</span><div class="seg"><button data-ax="1" data-v="0">להבין</button><button data-ax="1" data-v="1">לתרגל</button></div></div>
-    <div class="axis"><span class="q"><span class="kbd">3</span>איפה הקושי?</span><div class="seg"><button data-ax="2" data-v="0">בשיחה עצמה</button><button data-ax="2" data-v="1">בהחלטות במהלכה</button></div></div>
+    <div class="axis"><span class="q">מה הם יודעים?</span><div class="seg"><button data-ax="0" data-v="0">לא יודעים מה לעשות</button><button data-ax="0" data-v="1">יודעים, אבל לא מצליחים בלחץ</button></div></div>
+    <div class="axis"><span class="q">מה חסר להם?</span><div class="seg"><button data-ax="1" data-v="0">להבין</button><button data-ax="1" data-v="1">לתרגל</button></div></div>
+    <div class="axis"><span class="q">איפה הקושי?</span><div class="seg"><button data-ax="2" data-v="0">בשיחה עצמה</button><button data-ax="2" data-v="1">בהחלטות במהלכה</button></div></div>
   </div>
   <div class="tools" id="dialTools">
     <div class="tool" data-t="video"><i data-i="clapperboard"></i>סרטון</div>
@@ -260,6 +253,7 @@ html.pastel .chip.mid{background:#FFE3B0} html.pastel .flip .chip.ctool{backgrou
 
 <section class="scene ai" data-seg="2" data-name="שואלים את ה-AI">
   <div class="mode" id="mode"><i></i><span></span></div>
+  <button class="pill" data-cmd="rerun"><i data-i="repeat"></i>שאלו שוב</button>
   <h1 class="lg" style="font-size:calc(var(--u)*3.6)">ואם פשוט נשאל את ה-AI?</h1>
   <div class="duo">
     <div class="pane" style="--c:var(--coral)"><span class="t">שאלה בלי אבחון</span><p class="ask" id="askA"></p><div class="ans"><i data-i="bot"></i><p id="ansA"></p></div></div>
@@ -300,10 +294,16 @@ html.pastel .chip.mid{background:#FFE3B0} html.pastel .flip .chip.ctool{backgrou
 <div id="notes" hidden><b id="nclock"></b><span id="ntext"></span></div>
 <div id="bar"><i id="prog"></i></div>
 <div id="nav">
-  <button data-cmd="next" aria-label="הבא" title="הבא"><i data-i="arrow-left"></i></button>
-  <button data-cmd="prev" aria-label="הקודם" title="הקודם"><i data-i="arrow-right"></i></button>
-  <button data-cmd="help" aria-label="עזרה ומקשים" title="עזרה ומקשים"><i data-i="circle-help"></i></button>
-  <button data-cmd="admin" aria-label="ניהול" title="ניהול"><i data-i="settings"></i></button>
+  <div class="grp aux">
+    <button data-cmd="notes"><i data-i="sticky-note"></i>הערות מנחה</button>
+    <button data-cmd="pres"><i data-i="presentation"></i>חלון מנחה</button>
+    <button data-cmd="full"><i data-i="maximize"></i>מסך מלא</button>
+    <button data-cmd="admin"><i data-i="settings"></i>ניהול</button>
+  </div>
+  <div class="grp">
+    <button data-cmd="prev"><i data-i="arrow-right"></i>הקודם</button>
+    <button class="pri" data-cmd="next">הבא<i data-i="arrow-left"></i></button>
+  </div>
 </div>
 <div class="modal" id="modal" hidden><div class="box" id="box"></div></div>
 </div>
@@ -312,7 +312,7 @@ html.pastel .chip.mid{background:#FFE3B0} html.pastel .flip .chip.ctool{backgrou
 <script>
 (function(){
 var SRC=document.documentElement.outerHTML;
-var ICONS={"arrow-left": "<path d=\"m12 19-7-7 7-7\" /> <path d=\"M19 12H5\" />", "arrow-right": "<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />", "bot": "<path d=\"M12 8V4H8\" /> <rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\" /> <path d=\"M2 14h2\" /> <path d=\"M20 14h2\" /> <path d=\"M15 13v2\" /> <path d=\"M9 13v2\" />", "brain": "<path d=\"M12 18V5\" /> <path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\" /> <path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\" /> <path d=\"M17.996 5.125a4 4 0 012.526 5.77\" /> <path d=\"M18 18a4 4 0 002-7.465\" /> <path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\" /> <path d=\"M6 18a4 4 0 01-2-7.465\" /> <path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\" />", "circle-help": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\" /> <path d=\"M12 17h.01\" />", "clapperboard": "<path d=\"m12.296 3.464 3.02 3.956\" /> <path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z\" /> <path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" /> <path d=\"m6.18 5.276 3.1 3.899\" />", "compass": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\" />", "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "hand": "<path d=\"M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2\" /> <path d=\"M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2\" /> <path d=\"M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8\" /> <path d=\"M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15\" />", "message-circle": "<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />", "mic": "<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />", "monitor-play": "<path d=\"M15.033 9.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56V7.648a.645.645 0 0 1 .967-.56z\" /> <path d=\"M12 17v4\" /> <path d=\"M8 21h8\" /> <rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\" />", "phone-call": "<path d=\"M13 2a9 9 0 0 1 9 9\" /> <path d=\"M13 6a5 5 0 0 1 5 5\" /> <path d=\"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384\" />", "repeat": "<path d=\"m17 2 4 4-4 4\" /> <path d=\"M3 11v-1a4 4 0 0 1 4-4h14\" /> <path d=\"m7 22-4-4 4-4\" /> <path d=\"M21 13v1a4 4 0 0 1-4 4H3\" />", "settings": "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\" /> <path d=\"M12 18h.01\" />", "sparkles": "<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />", "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\" />"};
+var ICONS={"arrow-left": "<path d=\"m12 19-7-7 7-7\" /> <path d=\"M19 12H5\" />", "arrow-right": "<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />", "bot": "<path d=\"M12 8V4H8\" /> <rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\" /> <path d=\"M2 14h2\" /> <path d=\"M20 14h2\" /> <path d=\"M15 13v2\" /> <path d=\"M9 13v2\" />", "brain": "<path d=\"M12 18V5\" /> <path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\" /> <path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\" /> <path d=\"M17.996 5.125a4 4 0 012.526 5.77\" /> <path d=\"M18 18a4 4 0 002-7.465\" /> <path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\" /> <path d=\"M6 18a4 4 0 01-2-7.465\" /> <path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\" />", "clapperboard": "<path d=\"m12.296 3.464 3.02 3.956\" /> <path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z\" /> <path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" /> <path d=\"m6.18 5.276 3.1 3.899\" />", "compass": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\" />", "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "hand": "<path d=\"M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2\" /> <path d=\"M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2\" /> <path d=\"M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8\" /> <path d=\"M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15\" />", "maximize": "<path d=\"M8 3H5a2 2 0 0 0-2 2v3\" /> <path d=\"M21 8V5a2 2 0 0 0-2-2h-3\" /> <path d=\"M3 16v3a2 2 0 0 0 2 2h3\" /> <path d=\"M16 21h3a2 2 0 0 0 2-2v-3\" />", "message-circle": "<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />", "mic": "<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />", "monitor-play": "<path d=\"M15.033 9.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56V7.648a.645.645 0 0 1 .967-.56z\" /> <path d=\"M12 17v4\" /> <path d=\"M8 21h8\" /> <rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\" />", "phone-call": "<path d=\"M13 2a9 9 0 0 1 9 9\" /> <path d=\"M13 6a5 5 0 0 1 5 5\" /> <path d=\"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384\" />", "presentation": "<path d=\"M2 3h20\" /> <path d=\"M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3\" /> <path d=\"m7 21 5-5 5 5\" />", "repeat": "<path d=\"m17 2 4 4-4 4\" /> <path d=\"M3 11v-1a4 4 0 0 1 4-4h14\" /> <path d=\"m7 22-4-4 4-4\" /> <path d=\"M21 13v1a4 4 0 0 1-4 4H3\" />", "settings": "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\" /> <path d=\"M12 18h.01\" />", "sparkles": "<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />", "sticky-note": "<path d=\"M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z\" /> <path d=\"M15 3v5a1 1 0 0 0 1 1h5\" />", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />", "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\" />"};
 document.documentElement.lang='he';document.documentElement.dir='rtl';
 function $(s,r){return (r||document).querySelector(s)} function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
 $$('[data-i]').forEach(function(e){e.outerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+ICONS[e.dataset.i]+'</svg>'});
@@ -323,9 +323,9 @@ var NOTES=[
  ['ומה אם נהפוך את הסדר?','[המסך מתהפך] צורך, אחריו חוויית למידה, ורק בסוף כלי.','היום, כשהכלים כבר לא מגבילים אותנו, השאלה החשובה היא מה אנחנו באמת צריכים שיקרה.'],
  ['מקרה בוחן. לקרוא את המשפט ולתת לו לשקוע.','תחשבו רגע. אל תענו בקול.','סרטון.','לומדה.','סימולציית AI.','סדנה.','כלי עזר בזמן אמת. לעצור שלוש שניות. "מה הבחירה הראשונה שלכם? אני מנחשת שהחדר התחלק עכשיו לפחות בין שלוש אפשרויות." אם מרימים ידיים, אפשר ללחוץ על כלי כדי לספור.'],
  ['אבל רגע. מה אנחנו בכלל יודעים?','האם הם לא יודעים מה לעשות, או שהם יודעים ולא מצליחים בלחץ?','האם הם צריכים להבין, או לתרגל?','האם הבעיה בשיחה עצמה, או בהחלטות שהם מקבלים במהלכה?','בלי התשובות לשאלות האלה, אנחנו לא באמת יכולים לבחור כלי.'],
- ['עכשיו עונים על השאלות. ללחוץ על התשובות (או מקשים 1, 2, 3) ולתת לקהל לראות איך הכלי מתחלף. להתחיל מ"לא יודעים, להבין" ולסיים ב"יודעים, לתרגל".','אותה בעיה בדיוק. שמונה צירופים. רק בשניים מהם סימולציית AI היא התשובה.'],
+ ['עכשיו עונים על השאלות. ללחוץ על התשובות ולתת לקהל לראות איך הכלי מתחלף. להתחיל מ"לא יודעים, להבין" ולסיים ב"יודעים, לתרגל".','אותה בעיה בדיוק. שמונה צירופים. רק בשניים מהם סימולציית AI היא התשובה.'],
  ['ניקח כלי אחד: סימולציה עם דמות AI.','מצב 1: עובד חדש. אולי צריך קודם מודל, ידע ודוגמה.','מצב 2: מכיר את הכללים ונלחץ. עכשיו סימולציה ותרגול הם בול.','מצב 3: עובד מצוין. סימולציה מאתגרת עם משוב תיקח אותו לרמה הבאה.','הכלי לא השתנה. מה שהשתנה הוא הצורך.','אין כלי טוב. יש כלי שמתאים לצורך.'],
- ['וכן, אפשר לשאול גם את ChatGPT איזה כלי מתאים. בואו נשאל פעמיים: פעם בלי אבחון, ופעם עם מה שסימנו בחוגה.','[התשובות נכתבות] לתת לקהל לקרוא. להצביע על ההבדל: משמאל רשימה של הכול, מימין המלצה אחת עם נימוק. מקש R מריץ שוב.','איכות התשובה תלויה מאוד באיכות השאלה שאנחנו יודעים לשאול. וכאן נמצא הניסיון המקצועי שלנו.'],
+ ['וכן, אפשר לשאול גם את ChatGPT איזה כלי מתאים. בואו נשאל פעמיים: פעם בלי אבחון, ופעם עם מה שסימנו בחוגה.','[התשובות נכתבות] לתת לקהל לקרוא. להצביע על ההבדל: משמאל רשימה של הכול, מימין המלצה אחת עם נימוק. הכפתור "שאלו שוב" מריץ מחדש.','איכות התשובה תלויה מאוד באיכות השאלה שאנחנו יודעים לשאול. וכאן נמצא הניסיון המקצועי שלנו.'],
  ['משהו פרקטי לקחת הלאה. שלוש שאלות, לפי הסדר.','אחת: מה אני רוצה שיקרה? לא איזה תוכן להעביר.','שתיים: מה צריך לקרות כדי שזה יקרה? לראות, להבין, להחליט, לתרגל, לקבל משוב, לחזור ולהתנסות.','שלוש, ורק עכשיו: איזה כלי יכול לעזור? מי שרוצה יכול לצלם את המסך.'],
  ['פעם היינו שואלים: מה אנחנו מסוגלים לייצר?','היום אנחנו מסוגלים לייצר כמעט הכול. [עצירה]','ולכן השאלה החשובה היא: מה נכון לייצר?'],
  ['זוכרים את המסך שפתחנו בו?','לא רק לדעת מה הכלים יודעים לעשות. להבין אנשים, צרכים ותהליכי למידה, ולהחליט מה באמת יקדם אותם.','AI יודע לייצר אפשרויות. אנחנו יודעים לבחור ביניהן. תודה.']
@@ -357,14 +357,14 @@ var votes={};
 $('#vote').addEventListener('click',function(e){var b=e.target.closest('.tool');if(!b||!b.classList.contains('on'))return;votes[b.dataset.t]=(votes[b.dataset.t]||0)+1;$('.cnt',b).innerHTML='<svg class="ic" viewBox="0 0 24 24">'+ICONS.hand+'</svg>'+votes[b.dataset.t];b.blur()});
 
 /* ---------- AI ---------- */
-var cfg={mode:'demo',key:'',model:'gpt-4o-mini',base:'https://api.openai.com/v1',theme:'pastel',title:'רגע לפני שבוחרים כלי',sub:'על צורך, על חוויית למידה, ורק אז על טכנולוגיה',stamp:0};
+var cfg={mode:'demo',key:'',model:'gpt-4o-mini',base:'https://api.openai.com/v1',theme:'pink',title:'רגע לפני שבוחרים כלי',sub:'על צורך, על חוויית למידה, ורק אז על טכנולוגיה',stamp:0};
 var baked=null,sv=null;
 try{baked=JSON.parse(document.getElementById('mnl-baked').textContent)}catch(e){}
 try{sv=JSON.parse(localStorage.getItem('mnl-cfg')||'null')}catch(e){}
 var from=(baked&&(!sv||(baked.stamp||0)>=(sv.stamp||0)))?baked:sv;
 if(from)for(var k in cfg)if(from[k]!=null)cfg[k]=from[k];
 function saveCfg(){cfg.stamp=Date.now();try{localStorage.setItem('mnl-cfg',JSON.stringify(cfg))}catch(e){}}
-function applyCfg(){if(location.hash!=='#presenter')document.documentElement.classList.toggle('pastel',cfg.theme==='pastel');$('#t-title').textContent=cfg.title;$('#t-sub').textContent=cfg.sub}
+function applyCfg(){if(location.hash!=='#presenter'){var BG={pink:'#FFD9E4',mint:'#CDF2E2',sky:'#CFE8FF',vanilla:'#FFF1C2',lilac:'#E4DAFF'};if(!BG[cfg.theme]&&cfg.theme!=='dark')cfg.theme='pink';var R=document.documentElement;R.classList.toggle('pastel',cfg.theme!=='dark');if(BG[cfg.theme])R.style.setProperty('--bg',BG[cfg.theme]);else R.style.removeProperty('--bg')}$('#t-title').textContent=cfg.title;$('#t-sub').textContent=cfg.sub}
 applyCfg();
 function live(){return cfg.mode==='live'&&cfg.key}
 var SYS='אתה יועץ למידה ארגונית. ענה בעברית, בשלושה משפטים לכל היותר, בלי רשימות ובלי כותרות.';
@@ -429,10 +429,10 @@ function help(){modal.hidden=false;box.innerHTML='<h2>מקשים</h2><dl>'+
  .map(function(r){return '<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>'}).join('')+'</dl><div class="row"><button class="btn go" data-x="close">סגירה</button></div>'}
 function admin(){modal.hidden=false;box.innerHTML='<h2>ניהול</h2><label>קוד כניסה<input id="code" type="password" inputmode="numeric" autocomplete="off"></label><p class="msg cr" id="amsg"></p><div class="row"><button class="btn go" data-x="code">כניסה</button><button class="btn" data-x="close">ביטול</button></div>';$('#code').focus()}
 function adminForm(){box.classList.add('wide');box.innerHTML='<h2>הכנת הסשן</h2>'+
- '<ol><li>ממלאים, שומרים ובודקים חיבור כאן, בעמדה שלך.</li><li>מורידים קובץ מוכן ומעבירים אותו לעמדת המרצה.</li><li>שם רק פותחים את הקובץ ולוחצים F למסך מלא. הכול כבר מוגדר.</li></ol>'+
+ '<ol><li>ממלאים, שומרים ובודקים חיבור כאן, בעמדה שלך.</li><li>מורידים קובץ מוכן ומעבירים אותו לעמדת המרצה.</li><li>שם רק פותחים את הקובץ ולוחצים על "מסך מלא". הכול כבר מוגדר.</li></ol>'+
  '<div class="grid"><label>כותרת הפתיחה<input class="he" id="f-title" type="text"></label>'+
  '<label>שורת משנה<input class="he" id="f-sub" type="text"></label>'+
- '<label>ערכת צבעים<select id="f-theme"><option value="pastel">פסטל גלידה</option><option value="dark">כהה לבמה</option></select></label>'+
+ '<label>צבע רקע<select id="f-theme"><option value="pink">ורוד תות</option><option value="mint">ירוק מנטה</option><option value="sky">תכלת</option><option value="vanilla">וניל</option><option value="lilac">לילך</option><option value="dark">כהה לבמה</option></select></label>'+
  '<label>מצב AI<select id="f-mode"><option value="demo">דמו: תשובות לדוגמה, בלי רשת</option><option value="live">חי: OpenAI</option></select></label>'+
  '<label>מפתח API<input id="f-key" type="password" autocomplete="off" placeholder="sk-..."></label>'+
  '<label>מודל<input id="f-model" type="text"></label>'+
@@ -440,7 +440,7 @@ function adminForm(){box.classList.add('wide');box.innerHTML='<h2>הכנת הס�
  '<label class="chk"><input id="f-inc" type="checkbox" checked>לכלול את המפתח בקובץ המוכן</label>'+
  '<p class="msg" id="amsg">אם קריאה ל-AI נכשלת או מתעכבת על הבמה, המסך עובר לדמו לבד.</p>'+
  '<div class="row"><button class="btn go" data-x="save">שמירה</button><button class="btn" data-x="test">בדיקת חיבור</button><button class="btn go" data-x="export">הורדת קובץ מוכן</button></div>'+
- '<div class="row"><button class="btn" data-x="wipe">מחיקת המפתח מהמחשב הזה</button><button class="btn" data-x="close">סגירה</button></div>';
+ '<div class="row"><button class="btn" data-x="restart">חזרה למסך הראשון</button><button class="btn" data-x="wipe">מחיקת המפתח מהמחשב הזה</button><button class="btn" data-x="close">סגירה</button></div>';
  $('#f-mode').value=cfg.mode;$('#f-key').value=cfg.key;$('#f-model').value=cfg.model;$('#f-base').value=cfg.base;$('#f-theme').value=cfg.theme;$('#f-title').value=cfg.title;$('#f-sub').value=cfg.sub}
 function readForm(){cfg.mode=$('#f-mode').value;cfg.key=$('#f-key').value.trim();cfg.model=$('#f-model').value.trim()||'gpt-4o-mini';cfg.base=$('#f-base').value.trim()||'https://api.openai.com/v1';
  cfg.theme=$('#f-theme').value;cfg.title=$('#f-title').value.trim()||'רגע לפני שבוחרים כלי';cfg.sub=$('#f-sub').value.trim()}
@@ -455,6 +455,7 @@ modal.addEventListener('click',function(e){
   if(e.target===modal)return closeModal();
   var b=e.target.closest('[data-x]');if(!b)return;var x=b.dataset.x,msg=$('#amsg');
   if(x==='close')return closeModal();
+  if(x==='restart'){closeModal();return restart()}
   if(x==='code'){if($('#code').value==='1234')adminForm();else msg.textContent='קוד שגוי.';return}
   if(x==='export'){readForm();saveCfg();applyCfg();aiDone=false;setPrompts();return exportFile(msg)}
   if(x==='save'){readForm();saveCfg();applyCfg();aiDone=false;setPrompts();msg.textContent=cfg.mode==='live'&&!cfg.key?'נשמר. חסר מפתח, ולכן המסך יישאר בדמו.':'נשמר.';return}
@@ -472,8 +473,8 @@ function cmd(c){
   else if(c==='notes'){var n=$('#notes');n.hidden=!n.hidden}
   else if(c==='full'){try{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(function(){})}catch(e){}}
   else if(c==='pres'){try{presWin=window.open(location.href.split('#')[0]+'#presenter','mnl-presenter','width=560,height=640')}catch(e){presWin=null}
-    if(presWin)setTimeout(post,600);else{help();box.insertAdjacentHTML('afterbegin','<p class="msg cr">הדפדפן חסם את חלון המנחה. אפשר להשתמש במקש N במקומו.</p>')}}}
-$('#nav').addEventListener('click',function(e){var b=e.target.closest('button');if(b){cmd(b.dataset.cmd);b.blur()}});
+    if(presWin)setTimeout(post,600);else{modal.hidden=false;box.innerHTML='<div class="row"><button class="btn go" data-x="close">סגירה</button></div>';box.insertAdjacentHTML('afterbegin','<p class="msg cr">הדפדפן חסם את חלון המנחה. אפשר להשתמש בכפתור "הערות מנחה" במקומו.</p>')}}}
+stage.addEventListener('click',function(e){var b=e.target.closest('[data-cmd]');if(b){cmd(b.dataset.cmd);b.blur()}});
 var KEYS={ArrowLeft:'next',' ':'next',PageDown:'next',Enter:'next',ArrowRight:'prev',PageUp:'prev',Backspace:'prev',Home:'restart',
   n:'notes',N:'notes','מ':'notes',p:'pres',P:'pres','פ':'pres',f:'full',F:'full','כ':'full',s:'admin',S:'admin','ד':'admin',r:'rerun',R:'rerun','ר':'rerun',h:'help',H:'help','?':'help','י':'help'};
 document.addEventListener('keydown',function(e){
