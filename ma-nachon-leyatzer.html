@@ -141,14 +141,27 @@ h1,h2,p{margin:0;text-wrap:balance}
 .msg{font-size:14px;min-height:1.4em}
 
 /* pastel: one flat ice-cream colour, black type, white cards, a single raspberry accent. */
-html.pastel{--bg:#FFD9E4; --bg2:var(--bg); --ink:#141414; --dim:#4D4D4D; --line:rgba(0,0,0,.16); --panel:#FFFFFF; --acc:#D81B60;
+html.pastel{--bg:#FFD9E4; --bg2:var(--bg); --ink:#141414; --dim:#4D4D4D; --line:var(--bg); --panel:#FFFFFF; --acc:#D81B60;
   --coral:var(--acc); --teal:var(--acc); --sun:var(--acc); --violet:var(--acc); --on:#FFFFFF; --hlc:var(--acc); --tlc:var(--acc); --crc:var(--acc);
-  --chrome:#FFFFFF; --veil:rgba(20,20,20,.55); --boxbg:#FFFFFF; --field:#F6F6F6; color-scheme:light}
+  --chrome:#FFFFFF; --veil:var(--bg); --boxbg:#FFFFFF; --field:#F6F6F6; color-scheme:light}
 html.pastel #stage,html.pastel #stage[data-seg]{background:var(--bg);--glow:var(--acc)}
 html.pastel .badge{box-shadow:none}
 html.pastel .dial .tool.pick{box-shadow:none}
 html.pastel .card:first-child,html.pastel .pane:first-child{--c:#5A5A5A}
 html.pastel #notes{background:#FFFFFF}
+/* flat: solid fills only. No gradients, shadows, transparency or cross-fades. */
+html.pastel *{box-shadow:none!important}
+html.pastel .scene{transition:none}
+html.pastel [data-b]{opacity:1;visibility:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+html.pastel [data-b].on{visibility:visible} html.pastel [data-b].gone{visibility:hidden}
+html.pastel .tool,html.pastel .seg>*,html.pastel .chip{transition:none}
+html.pastel .chip{transition:right 1.1s cubic-bezier(.7,0,.2,1)}
+html.pastel .dial .tool{opacity:1;color:#A8A8A8} html.pastel .dial .tool.pick{color:#FFFFFF}
+html.pastel #nav .aux button{opacity:1}
+html.pastel .pane .ask,html.pastel .bits span,html.pastel .box{background:var(--bg)} html.pastel .box{border:0}
+html.pastel .box input,html.pastel .box select{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{background:var(--acc)}
+html.pastel .mode{background:#FFFFFF;border-color:#FFFFFF} html.pastel .mode.live{border-color:#FFFFFF}
+html.pastel .modal{background:#FFFFFF}
 .box input.he{direction:rtl;text-align:right} .box.wide{width:min(780px,100%);gap:12px} .box .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px} .box ol{margin:0;padding-inline-start:20px;font-size:14px;color:var(--dim)} .box .chk{flex-direction:row;align-items:center;gap:8px}
 /* presenter window */
 #pres{position:fixed;inset:0;direction:rtl;background:#070A1E;color:var(--ink);padding:24px;display:flex;flex-direction:column;gap:18px;font-size:18px;overflow:auto}
