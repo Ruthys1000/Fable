@@ -45,7 +45,7 @@ h1,h2,p{margin:0;text-wrap:balance}
 .sm{font-size:calc(var(--u)*2.3);font-weight:400;line-height:1.4;color:var(--dim)}
 .eye{font-size:calc(var(--u)*1.7);font-weight:700;letter-spacing:.14em;color:var(--glow)}
 .hl{color:var(--hlc)} .tl{color:var(--tlc)} .cr{color:var(--crc)}
-.badge{width:calc(var(--u)*12);height:calc(var(--u)*12);border-radius:50%;display:grid;place-items:center;font-size:calc(var(--u)*6);background:var(--panel);border:1px solid var(--line);box-shadow:0 0 calc(var(--u)*6) color-mix(in srgb,var(--glow) 45%,transparent)}
+.badge{flex:none;width:calc(var(--u)*12);height:calc(var(--u)*12);border-radius:50%;display:grid;place-items:center;font-size:calc(var(--u)*6);background:var(--panel);border:1px solid var(--line);box-shadow:0 0 calc(var(--u)*6) color-mix(in srgb,var(--glow) 45%,transparent)}
 .stack{display:grid;place-items:center} .stack>*{grid-area:1/1}
 .col{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*2.2)}
 
@@ -81,7 +81,7 @@ h1,h2,p{margin:0;text-wrap:balance}
 .dial{gap:calc(var(--u)*1.8);padding-block:calc(var(--u)*3.5) calc(var(--u)*5)}
 .dial .axes{width:calc(var(--u)*86);gap:calc(var(--u)*1.2)} .dial .axis{grid-template-columns:calc(var(--u)*16) 1fr}
 .dial .seg>*{padding:calc(var(--u)*1.05) calc(var(--u)*1.2);font-size:calc(var(--u)*2.1)}
-.dial .tool{padding:calc(var(--u)*1.4) calc(var(--u)*1);font-size:calc(var(--u)*1.9)} .dial .tool .ic{font-size:calc(var(--u)*3.4)}
+.dial .tool{width:calc(var(--u)*12.6);padding:calc(var(--u)*1.4) calc(var(--u)*.8);font-size:calc(var(--u)*1.9)} .dial .tool .ic{font-size:calc(var(--u)*3.4)}
 .dial .why{min-height:calc(var(--u)*6.6)}
 .ai{gap:calc(var(--u)*1.8);padding:calc(var(--u)*4) calc(var(--u)*5) calc(var(--u)*5.5)}
 .scoops{display:none;gap:calc(var(--u)*1.4)} .scoops i{width:calc(var(--u)*4.2);height:calc(var(--u)*4.2);border-radius:50%}
@@ -179,6 +179,8 @@ html.pastel #nav .aux button{opacity:1} html.pastel #nav button,html.pastel .pil
 html.pastel #prog{background:var(--ink)} html.pastel #notes{background:var(--neu);border:0}
 html.pastel .modal{background:var(--bg)} html.pastel .box input,html.pastel .box select{border-color:#FFFFFF}
 html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{background:var(--ink);border-color:var(--ink);color:#FFFFFF}
+html.pastel .tool:nth-child(6){--tc:var(--c6)}
+html.pastel .team .qcard:nth-child(1){background:var(--c3)} html.pastel .team .qcard:nth-child(2){background:var(--c5)} html.pastel .team .qcard:nth-child(3){background:var(--c6)}
 .box input.he{direction:rtl;text-align:right} .box.wide{width:min(780px,100%);gap:12px} .box .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px} .box ol{margin:0;padding-inline-start:20px;font-size:14px;color:var(--dim)} .box .chk{flex-direction:row;align-items:center;gap:8px}
 /* presenter window */
 #pres{position:fixed;inset:0;direction:rtl;background:#070A1E;color:var(--ink);padding:24px;display:flex;flex-direction:column;gap:18px;font-size:18px;overflow:auto}
@@ -225,8 +227,8 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
 
 <section class="scene" data-seg="1" data-name="מה הייתם בוחרים?">
   <p class="eye">מקרה בוחן</p>
-  <div class="badge cr" style="width:calc(var(--u)*9);height:calc(var(--u)*9);font-size:calc(var(--u)*4.4)"><i data-i="phone-call"></i></div>
-  <h1 class="lg" style="font-size:calc(var(--u)*4.6)">אנשי שירות מתקשים להתמודד עם לקוח כועס.</h1>
+  <div class="badge cr" style="width:calc(var(--u)*9);height:calc(var(--u)*9);font-size:calc(var(--u)*4.4)"><i data-i="monitor-cog"></i></div>
+  <h1 class="lg" style="font-size:calc(var(--u)*4)">נכנסה מערכת חדשה. העובדים לא משתמשים בה.</h1>
   <p class="md hl" data-b="1">מה תבחרו?</p>
   <div class="tools" id="vote">
     <button class="tool" data-b="2" data-t="video"><i data-i="clapperboard"></i>סרטון<span class="cnt"></span></button>
@@ -240,9 +242,9 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
 <section class="scene" data-seg="1" data-name="מה אנחנו יודעים?">
   <h1 class="lg" style="font-size:calc(var(--u)*4.6)">אבל רגע… <span class="cr">מה אנחנו בכלל יודעים?</span></h1>
   <div class="axes">
-    <div class="axis" data-b="1"><span class="q">מה הם יודעים?</span><div class="seg"><span>לא יודעים מה לעשות</span><span>יודעים, אבל לא מצליחים בלחץ</span></div></div>
-    <div class="axis" data-b="2"><span class="q">מה חסר להם?</span><div class="seg"><span>להבין</span><span>לתרגל</span></div></div>
-    <div class="axis" data-b="3"><span class="q">איפה הקושי?</span><div class="seg"><span>בשיחה עצמה</span><span>בהחלטות במהלכה</span></div></div>
+    <div class="axis" data-b="1"><span class="q">מה קורה בפועל?</span><div class="seg"><span>לא יודעים להפעיל</span><span>יודעים, אבל לא משתמשים</span></div></div>
+    <div class="axis" data-b="2"><span class="q">מה עומד בדרך?</span><div class="seg"><span>המערכת לא נוחה</span><span>אין סיבה לשנות</span></div></div>
+    <div class="axis" data-b="3"><span class="q">באיזו תדירות?</span><div class="seg"><span>פעולה יומיומית</span><span>פעולה נדירה</span></div></div>
   </div>
   <p class="md" data-b="4" style="max-width:calc(var(--u)*72);font-size:calc(var(--u)*3.2)">בלי התשובות לשאלות האלה,<br><span class="hl">אנחנו לא באמת יכולים לבחור כלי.</span></p>
 </section>
@@ -250,9 +252,9 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
 <section class="scene dial" data-seg="2" data-name="חוגת הצורך">
   <h1 class="lg" style="font-size:calc(var(--u)*3.8)">משנים את הצורך. <span class="tl">מה קורה לכלי?</span></h1>
   <div class="axes" id="axes">
-    <div class="axis"><span class="q">מה הם יודעים?</span><div class="seg"><button data-ax="0" data-v="0">לא יודעים מה לעשות</button><button data-ax="0" data-v="1">יודעים, אבל לא מצליחים בלחץ</button></div></div>
-    <div class="axis"><span class="q">מה חסר להם?</span><div class="seg"><button data-ax="1" data-v="0">להבין</button><button data-ax="1" data-v="1">לתרגל</button></div></div>
-    <div class="axis"><span class="q">איפה הקושי?</span><div class="seg"><button data-ax="2" data-v="0">בשיחה עצמה</button><button data-ax="2" data-v="1">בהחלטות במהלכה</button></div></div>
+    <div class="axis"><span class="q">מה קורה בפועל?</span><div class="seg"><button data-ax="0" data-v="0">לא יודעים להפעיל</button><button data-ax="0" data-v="1">יודעים, אבל לא משתמשים</button></div></div>
+    <div class="axis"><span class="q">מה עומד בדרך?</span><div class="seg"><button data-ax="1" data-v="0">המערכת לא נוחה</button><button data-ax="1" data-v="1">אין סיבה לשנות</button></div></div>
+    <div class="axis"><span class="q">באיזו תדירות?</span><div class="seg"><button data-ax="2" data-v="0">פעולה יומיומית</button><button data-ax="2" data-v="1">פעולה נדירה</button></div></div>
   </div>
   <div class="tools" id="dialTools">
     <div class="tool" data-t="video"><i data-i="clapperboard"></i>סרטון</div>
@@ -260,10 +262,11 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
     <div class="tool" data-t="sim"><i data-i="bot"></i>סימולציית AI</div>
     <div class="tool" data-t="work"><i data-i="users"></i>סדנה</div>
     <div class="tool" data-t="aid"><i data-i="smartphone"></i>כלי עזר בזמן אמת</div>
+    <div class="tool" data-t="none"><i data-i="ban"></i>לא בעיית למידה</div>
   </div>
   <div class="stack why">
     <p class="md" id="why" data-b="0" data-until="1" style="font-size:calc(var(--u)*2.6)"></p>
-    <p class="md" data-b="1" style="font-size:calc(var(--u)*2.6)">אותה בעיה, שמונה צרכים אפשריים.<br><span class="hl">רק בשניים מהם סימולציית AI היא התשובה.</span></p>
+    <p class="md" data-b="1" style="font-size:calc(var(--u)*2.6)">אותה בעיה, שמונה צרכים אפשריים.<br><span class="hl">בשניים מהם התשובה בכלל לא למידה.</span></p>
   </div>
 </section>
 
@@ -272,9 +275,9 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
     <div class="col" data-b="0" data-until="5" style="width:100%">
       <h1 class="lg" style="font-size:calc(var(--u)*4.6)"><i data-i="bot"></i> אותו כלי. שלושה צרכים.</h1>
       <div class="cards">
-        <div class="card" data-b="1" style="--c:var(--coral)"><span class="n">מצב 1</span><p class="who">עובד חדש שמעולם לא ניהל שיחת שירות</p><p class="so"><i data-i="arrow-left"></i>צריך קודם מודל, ידע ודוגמה.</p><p class="v">עוד לא</p></div>
-        <div class="card" data-b="2" style="--c:var(--teal)"><span class="n">מצב 2</span><p class="who">עובד שמכיר את הכללים, אבל נלחץ מול התנגדויות</p><p class="so"><i data-i="arrow-left"></i>סימולציה ותרגול חוזר.</p><p class="v">בול</p></div>
-        <div class="card" data-b="3" style="--c:var(--sun)"><span class="n">מצב 3</span><p class="who">עובד מצוין שרוצה להשתפר במצבים מורכבים</p><p class="so"><i data-i="arrow-left"></i>סימולציה מאתגרת, עם משוב.</p><p class="v">לרמה הבאה</p></div>
+        <div class="card" data-b="1" style="--c:var(--coral)"><span class="n">מצב 1</span><p class="who">עובד שעוד לא ראה את המערכת</p><p class="so"><i data-i="arrow-left"></i>צריך קודם הדגמה והקשר.</p><p class="v">עוד לא</p></div>
+        <div class="card" data-b="2" style="--c:var(--teal)"><span class="n">מצב 2</span><p class="who">עובד שמכיר אותה, אבל חוזר לאקסל כשלחוץ</p><p class="so"><i data-i="arrow-left"></i>תרגול חוזר, עד שזה טבעי.</p><p class="v">בול</p></div>
+        <div class="card" data-b="3" style="--c:var(--sun)"><span class="n">מצב 3</span><p class="who">משתמש מתקדם שרוצה לקצר תהליכים</p><p class="so"><i data-i="arrow-left"></i>סימולציה של מקרי קצה, עם משוב.</p><p class="v">לרמה הבאה</p></div>
       </div>
       <p class="md" data-b="4">הכלי לא השתנה. <span class="hl">מה שהשתנה הוא הצורך.</span></p>
     </div>
@@ -287,14 +290,14 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
   <button class="pill" data-cmd="rerun"><i data-i="repeat"></i>שאלו שוב</button>
   <h1 class="lg" style="font-size:calc(var(--u)*3.6)">ואם פשוט נשאל את ה-AI?</h1>
   <div class="duo">
-    <div class="pane" style="--c:var(--coral)"><span class="t">שאלה בלי אבחון</span><p class="ask" id="askA"></p><div class="ans"><i data-i="bot"></i><p id="ansA"></p></div></div>
-    <div class="pane" style="--c:var(--teal)"><span class="t">שאלה אחרי אבחון</span><p class="ask" id="askB"></p><div class="ans"><i data-i="bot"></i><p id="ansB"></p></div></div>
+    <div class="pane" style="--c:var(--coral)"><span class="t">שאלה בלי אפיון</span><p class="ask" id="askA"></p><div class="ans"><i data-i="bot"></i><p id="ansA"></p></div></div>
+    <div class="pane" style="--c:var(--teal)"><span class="t">שאלה אחרי אפיון</span><p class="ask" id="askB"></p><div class="ans"><i data-i="bot"></i><p id="ansB"></p></div></div>
   </div>
-  <p class="md" data-b="2" style="font-size:calc(var(--u)*2.7)">איכות התשובה תלויה באיכות השאלה. <span class="hl">וכאן נמצא הניסיון המקצועי שלנו.</span></p>
+  <p class="md" data-b="2" style="font-size:calc(var(--u)*2.7)">השאלה קובעת את התשובה. <span class="hl">ואת השאלה יודעים לנסח אנשי האפיון.</span></p>
 </section>
 
 <section class="scene" data-seg="3" data-name="המצפן">
-  <h1 class="lg" style="font-size:calc(var(--u)*4.4)"><i data-i="compass"></i> לפני שבוחרים כלי, עוצרים רגע</h1>
+  <h1 class="lg" style="font-size:calc(var(--u)*4)"><i data-i="compass"></i> לפני שבוחרים כלי, אנשי אפיון שואלים</h1>
   <div class="three">
     <div class="qcard" data-b="1"><span class="num">1</span><h2>מה אני רוצה שיקרה?</h2><p>לא איזה תוכן להעביר.</p><p>מה האדם צריך לדעת, להבין או לעשות אחרת?</p></div>
     <div class="qcard" data-b="2"><span class="num">2</span><h2>מה צריך לקרות כדי שזה יקרה?</h2><div class="bits"><span><i data-i="eye"></i>לראות</span><span><i data-i="brain"></i>להבין</span><span><i data-i="target"></i>להחליט</span><span><i data-i="mic"></i>לתרגל</span><span><i data-i="message-circle"></i>לקבל משוב</span><span><i data-i="repeat"></i>לחזור ולהתנסות</span></div></div>
@@ -322,6 +325,17 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
   </div>
 </section>
 
+<section class="scene" data-seg="4" data-name="אנשי האפיון">
+  <h1 class="lg" style="font-size:calc(var(--u)*5)">ואתם לא צריכים לבחור לבד.</h1>
+  <div class="three team">
+    <div class="qcard" data-b="1"><span class="num"><i data-i="message-circle"></i></span><h2>שואלים מה צריך לקרות</h2><p>לא מה ללמד, אלא מה אנשים צריכים לעשות אחרת.</p></div>
+    <div class="qcard" data-b="2"><span class="num"><i data-i="search"></i></span><h2>מגלים מה עומד בדרך</h2><p>ואומרים גם כשהתשובה בכלל לא למידה.</p></div>
+    <div class="qcard" data-b="3"><span class="num"><i data-i="wrench"></i></span><h2>ורק אז בוחרים כלי</h2><p>או בונים אותו, כשצריך.</p></div>
+  </div>
+  <p class="md" data-b="4">לפני שמזמינים כלי, <span class="hl">מדברים עם אנשי האפיון.</span></p>
+  <p class="sm" id="t-contact" data-b="4" hidden></p>
+</section>
+
 <div id="notes" hidden><b id="nclock"></b><span id="ntext"></span></div>
 <div id="bar"><i id="prog"></i></div>
 <div id="nav">
@@ -343,7 +357,7 @@ html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{ba
 <script>
 (function(){
 var SRC=document.documentElement.outerHTML;
-var ICONS={"arrow-left": "<path d=\"m12 19-7-7 7-7\" /> <path d=\"M19 12H5\" />", "arrow-right": "<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />", "bot": "<path d=\"M12 8V4H8\" /> <rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\" /> <path d=\"M2 14h2\" /> <path d=\"M20 14h2\" /> <path d=\"M15 13v2\" /> <path d=\"M9 13v2\" />", "brain": "<path d=\"M12 18V5\" /> <path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\" /> <path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\" /> <path d=\"M17.996 5.125a4 4 0 012.526 5.77\" /> <path d=\"M18 18a4 4 0 002-7.465\" /> <path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\" /> <path d=\"M6 18a4 4 0 01-2-7.465\" /> <path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\" />", "clapperboard": "<path d=\"m12.296 3.464 3.02 3.956\" /> <path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z\" /> <path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" /> <path d=\"m6.18 5.276 3.1 3.899\" />", "compass": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\" />", "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "hand": "<path d=\"M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2\" /> <path d=\"M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2\" /> <path d=\"M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8\" /> <path d=\"M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15\" />", "maximize": "<path d=\"M8 3H5a2 2 0 0 0-2 2v3\" /> <path d=\"M21 8V5a2 2 0 0 0-2-2h-3\" /> <path d=\"M3 16v3a2 2 0 0 0 2 2h3\" /> <path d=\"M16 21h3a2 2 0 0 0 2-2v-3\" />", "message-circle": "<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />", "mic": "<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />", "monitor-play": "<path d=\"M15.033 9.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56V7.648a.645.645 0 0 1 .967-.56z\" /> <path d=\"M12 17v4\" /> <path d=\"M8 21h8\" /> <rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\" />", "phone-call": "<path d=\"M13 2a9 9 0 0 1 9 9\" /> <path d=\"M13 6a5 5 0 0 1 5 5\" /> <path d=\"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384\" />", "presentation": "<path d=\"M2 3h20\" /> <path d=\"M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3\" /> <path d=\"m7 21 5-5 5 5\" />", "repeat": "<path d=\"m17 2 4 4-4 4\" /> <path d=\"M3 11v-1a4 4 0 0 1 4-4h14\" /> <path d=\"m7 22-4-4 4-4\" /> <path d=\"M21 13v1a4 4 0 0 1-4 4H3\" />", "settings": "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\" /> <path d=\"M12 18h.01\" />", "sparkles": "<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />", "sticky-note": "<path d=\"M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z\" /> <path d=\"M15 3v5a1 1 0 0 0 1 1h5\" />", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />", "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\" />"};
+var ICONS={"arrow-left": "<path d=\"m12 19-7-7 7-7\" /> <path d=\"M19 12H5\" />", "arrow-right": "<path d=\"M5 12h14\" /> <path d=\"m12 5 7 7-7 7\" />", "ban": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"M4.929 4.929 19.07 19.071\" />", "bot": "<path d=\"M12 8V4H8\" /> <rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\" /> <path d=\"M2 14h2\" /> <path d=\"M20 14h2\" /> <path d=\"M15 13v2\" /> <path d=\"M9 13v2\" />", "brain": "<path d=\"M12 18V5\" /> <path d=\"M15 13a4.17 4.17 0 01-3-4 4.17 4.17 0 01-3 4\" /> <path d=\"M17.707 6.294A3 3 0 1012 5a3 3 0 10-5.707 1.294\" /> <path d=\"M17.996 5.125a4 4 0 012.526 5.77\" /> <path d=\"M18 18a4 4 0 002-7.465\" /> <path d=\"M19.967 17.482a4 4 0 11-7.967.517 4 4 0 11-7.967-.517\" /> <path d=\"M6 18a4 4 0 01-2-7.465\" /> <path d=\"M6.004 5.125a4 4 0 00-2.526 5.77\" />", "clapperboard": "<path d=\"m12.296 3.464 3.02 3.956\" /> <path d=\"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z\" /> <path d=\"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" /> <path d=\"m6.18 5.276 3.1 3.899\" />", "compass": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <path d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\" />", "eye": "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "hand": "<path d=\"M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2\" /> <path d=\"M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2\" /> <path d=\"M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8\" /> <path d=\"M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15\" />", "maximize": "<path d=\"M8 3H5a2 2 0 0 0-2 2v3\" /> <path d=\"M21 8V5a2 2 0 0 0-2-2h-3\" /> <path d=\"M3 16v3a2 2 0 0 0 2 2h3\" /> <path d=\"M16 21h3a2 2 0 0 0 2-2v-3\" />", "message-circle": "<path d=\"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\" />", "mic": "<path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" />", "monitor-cog": "<path d=\"M12 17v4\" /> <path d=\"m14.305 7.53.923-.382\" /> <path d=\"m15.228 4.852-.923-.383\" /> <path d=\"m16.852 3.228-.383-.924\" /> <path d=\"m16.852 8.772-.383.923\" /> <path d=\"m19.148 3.228.383-.924\" /> <path d=\"m19.53 9.696-.382-.924\" /> <path d=\"m20.772 4.852.924-.383\" /> <path d=\"m20.772 7.148.924.383\" /> <path d=\"M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7\" /> <path d=\"M8 21h8\" /> <circle cx=\"18\" cy=\"6\" r=\"3\" />", "monitor-play": "<path d=\"M15.033 9.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56V7.648a.645.645 0 0 1 .967-.56z\" /> <path d=\"M12 17v4\" /> <path d=\"M8 21h8\" /> <rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\" />", "presentation": "<path d=\"M2 3h20\" /> <path d=\"M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3\" /> <path d=\"m7 21 5-5 5 5\" />", "repeat": "<path d=\"m17 2 4 4-4 4\" /> <path d=\"M3 11v-1a4 4 0 0 1 4-4h14\" /> <path d=\"m7 22-4-4 4-4\" /> <path d=\"M21 13v1a4 4 0 0 1-4 4H3\" />", "search": "<path d=\"m21 21-4.34-4.34\" /> <circle cx=\"11\" cy=\"11\" r=\"8\" />", "settings": "<path d=\"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915\" /> <circle cx=\"12\" cy=\"12\" r=\"3\" />", "smartphone": "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\" /> <path d=\"M12 18h.01\" />", "sparkles": "<path d=\"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z\" /> <path d=\"M20 2v4\" /> <path d=\"M22 4h-4\" /> <circle cx=\"4\" cy=\"20\" r=\"2\" />", "sticky-note": "<path d=\"M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z\" /> <path d=\"M15 3v5a1 1 0 0 0 1 1h5\" />", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\" /> <path d=\"M16 3.128a4 4 0 0 1 0 7.744\" /> <path d=\"M22 21v-2a4 4 0 0 0-3-3.87\" /> <circle cx=\"9\" cy=\"7\" r=\"4\" />", "wrench": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\" />"};
 document.documentElement.lang='he';document.documentElement.dir='rtl';
 function $(s,r){return (r||document).querySelector(s)} function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
 $$('[data-i]').forEach(function(e){e.outerHTML='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+ICONS[e.dataset.i]+'</svg>'});
@@ -352,30 +366,31 @@ var NOTES=[
  ['ברוכים הבאים. רבע שעה של עצירה, באמצע יריד שכולו התלהבות מכלים.'],
  ['זה בדרך כלל הדבר הראשון שקורה כשאנחנו נחשפים לכלי חדש.','אנחנו מתלהבים, מתחילים לחשוב מה אפשר לעשות איתו, ואז מחפשים לו שימוש.'],
  ['ומה אם נהפוך את הסדר?','[המסך מתהפך] צורך, אחריו חוויית למידה, ורק בסוף כלי.','היום, כשהכלים כבר לא מגבילים אותנו, השאלה החשובה היא מה אנחנו באמת צריכים שיקרה.'],
- ['מקרה בוחן. לקרוא את המשפט ולתת לו לשקוע.','תחשבו רגע. אל תענו בקול.','סרטון.','לומדה.','סימולציית AI.','סדנה.','כלי עזר בזמן אמת. לעצור שלוש שניות. "מה הבחירה הראשונה שלכם? אני מנחשת שהחדר התחלק עכשיו לפחות בין שלוש אפשרויות." אם מרימים ידיים, אפשר ללחוץ על כלי כדי לספור.'],
- ['אבל רגע. מה אנחנו בכלל יודעים?','האם הם לא יודעים מה לעשות, או שהם יודעים ולא מצליחים בלחץ?','האם הם צריכים להבין, או לתרגל?','האם הבעיה בשיחה עצמה, או בהחלטות שהם מקבלים במהלכה?','בלי התשובות לשאלות האלה, אנחנו לא באמת יכולים לבחור כלי.'],
- ['עכשיו עונים על השאלות. ללחוץ על התשובות ולתת לקהל לראות איך הכלי מתחלף. להתחיל מ"לא יודעים, להבין" ולסיים ב"יודעים, לתרגל".','אותה בעיה בדיוק. שמונה צירופים. רק בשניים מהם סימולציית AI היא התשובה.'],
- ['ניקח כלי אחד: סימולציה עם דמות AI.','מצב 1: עובד חדש. אולי צריך קודם מודל, ידע ודוגמה.','מצב 2: מכיר את הכללים ונלחץ. עכשיו סימולציה ותרגול הם בול.','מצב 3: עובד מצוין. סימולציה מאתגרת עם משוב תיקח אותו לרמה הבאה.','הכלי לא השתנה. מה שהשתנה הוא הצורך.','אין כלי טוב. יש כלי שמתאים לצורך.'],
- ['וכן, אפשר לשאול גם את ChatGPT איזה כלי מתאים. בואו נשאל פעמיים: פעם בלי אבחון, ופעם עם מה שסימנו בחוגה.','[התשובות נכתבות] לתת לקהל לקרוא. להצביע על ההבדל: משמאל רשימה של הכול, מימין המלצה אחת עם נימוק. הכפתור "שאלו שוב" מריץ מחדש.','איכות התשובה תלויה מאוד באיכות השאלה שאנחנו יודעים לשאול. וכאן נמצא הניסיון המקצועי שלנו.'],
- ['משהו פרקטי לקחת הלאה. שלוש שאלות, לפי הסדר.','אחת: מה אני רוצה שיקרה? לא איזה תוכן להעביר.','שתיים: מה צריך לקרות כדי שזה יקרה? לראות, להבין, להחליט, לתרגל, לקבל משוב, לחזור ולהתנסות.','שלוש, ורק עכשיו: איזה כלי יכול לעזור? מי שרוצה יכול לצלם את המסך.'],
+ ['מקרה בוחן. נכנסה מערכת חדשה, וחצי שנה אחרי העובדים עדיין עובדים בשיטה הישנה. לתת למשפט לשקוע.','תחשבו רגע. אל תענו בקול.','סרטון.','לומדה.','סימולציית AI.','סדנה.','כלי עזר בזמן אמת. לעצור שלוש שניות. "מה הבחירה הראשונה שלכם? אני מנחשת שהחדר התחלק עכשיו לפחות בין שלוש אפשרויות." אם מרימים ידיים, אפשר ללחוץ על כלי כדי לספור.'],
+ ['אבל רגע. מה אנחנו בכלל יודעים?','האם הם לא יודעים להפעיל את המערכת, או שהם יודעים ופשוט לא משתמשים?','מה עומד בדרך: המערכת לא נוחה, או שאין להם סיבה לשנות?','מדובר בפעולה שעושים כל יום, או פעם ברבעון?','בלי התשובות לשאלות האלה, אנחנו לא באמת יכולים לבחור כלי. ואת השאלות האלה בדיוק שואלים אנשי אפיון.'],
+ ['עונים על השאלות בלחיצה ונותנים לקהל לראות איך הכלי מתחלף. להתחיל מ"לא יודעים, לא נוחה, יומיומית", ולסיים ב"יודעים, אין סיבה לשנות": שם הכלי נעלם.','אותה בעיה בדיוק. שמונה צירופים. בשניים מהם התשובה בכלל לא למידה, ושום כלי לא יפתור אותה. את זה מגלה אפיון.'],
+ ['ניקח כלי אחד: סימולציה עם דמות AI.','מצב 1: עובד שעוד לא ראה את המערכת. צריך קודם הדגמה והקשר.','מצב 2: מכיר את המערכת, אבל חוזר לאקסל כשלחוץ. עכשיו תרגול חוזר הוא בול.','מצב 3: משתמש מתקדם. סימולציה של מקרי קצה עם משוב תיקח אותו לרמה הבאה.','הכלי לא השתנה. מה שהשתנה הוא הצורך.','אין כלי טוב. יש כלי שמתאים לצורך.'],
+ ['וכן, אפשר לשאול גם את ChatGPT. בואו נשאל פעמיים: פעם כמו שמזמינים הדרכה, ופעם כמו שאיש אפיון שואל, עם מה שסימנו בחוגה.','[התשובות נכתבות] לתת לקהל לקרוא. מימין רשימה של הכול, משמאל המלצה אחת עם נימוק. הכפתור "שאלו שוב" מריץ מחדש.','השאלה קובעת את התשובה. ואת השאלה הזאת יודעים לנסח אנשי האפיון.'],
+ ['משהו פרקטי לקחת הלאה. אלה השאלות שאנשי האפיון שואלים, לפי הסדר.','אחת: מה אני רוצה שיקרה? לא איזה תוכן להעביר.','שתיים: מה צריך לקרות כדי שזה יקרה? לראות, להבין, להחליט, לתרגל, לקבל משוב, לחזור ולהתנסות.','שלוש, ורק עכשיו: איזה כלי יכול לעזור? מי שרוצה יכול לצלם את המסך.'],
  ['פעם היינו שואלים: מה אנחנו מסוגלים לייצר?','היום אנחנו מסוגלים לייצר כמעט הכול. [עצירה]','ולכן השאלה החשובה היא: מה נכון לייצר?'],
- ['זוכרים את המסך שפתחנו בו?','לא רק לדעת מה הכלים יודעים לעשות. להבין אנשים, צרכים ותהליכי למידה, ולהחליט מה באמת יקדם אותם.','AI יודע לייצר אפשרויות. אנחנו יודעים לבחור ביניהן. תודה.']
+ ['זוכרים את המסך שפתחנו בו?','לא רק לדעת מה הכלים יודעים לעשות. להבין אנשים, צרכים ותהליכי למידה, ולהחליט מה באמת יקדם אותם.','AI יודע לייצר אפשרויות. אנחנו יודעים לבחור ביניהן.'],
+ ['וכאן אנחנו נכנסים לתמונה. אתם לא צריכים לבחור לבד.','אנשי האפיון במחלקה מתחילים מהשאלה מה אנשים צריכים לעשות אחרת.','הם מבררים מה באמת עומד בדרך, ואומרים גם כשהתשובה היא לא למידה.','ורק אז בוחרים את הכלי, או בונים אותו. (אם מתאים: כך נבנו הכלים שראיתם היום ביריד.)','לפני שמזמינים כלי, דברו עם אנשי האפיון. תודה.']
 ];
 var SEGEND=[2,6,9,12,15];
 
 /* ---------- need dial ---------- */
-var AX=[['הם חדשים ועוד לא יודעים מה לעשות.','הם מכירים את הנוהל, אבל לא מיישמים אותו בלחץ.'],
-        ['חסרה להם הבנה של מה שקורה בשיחה.','חסר להם תרגול, לא עוד הסבר.'],
-        ['הקושי הוא בשיחה עצמה: טון והרגעה.','הקושי הוא בהחלטות: מה להציע ומתי.']];
+var AX=[['לא יודעים להפעיל את המערכת.','יודעים להפעיל אותה, אבל לא משתמשים.'],
+        ['המערכת מסורבלת.','אין להם סיבה לשנות: השיטה הישנה משתלמת.'],
+        ['מדובר בפעולה יומיומית.','מדובר בפעולה נדירה.']];
 var MAP={
- '000':{t:['video','work'],w:'קודם צריך לראות איך נראית שיחה טובה, ולדבר עליה.',a:'הייתי מתחיל מסרטון קצר שמראה שיחה טובה מול לקוח כועס, ואחריו סדנה שמפרקת יחד מה נעשה שם. לעובדים חדשים חסר מודל בראש, ותרגול לפני שיש מודל רק יקבע הרגלים שגויים.'},
- '001':{t:['course'],w:'חסר ידע על הכללים: מה מותר להציע, ומתי.',a:'הייתי בוחר בלומדה קצרה שמלמדת את כללי ההחלטה: מה מותר להציע, באיזה מצב, ומתי מעבירים הלאה. כרגע חסר להם ידע, ולכן כדאי לבנות אותו לפני שמבקשים מהם להחליט בזמן אמת.'},
- '010':{t:['work'],w:'תרגול ראשון, מוגן, מול אנשים ועם מנחה.',a:'הייתי בוחר בסדנה עם משחקי תפקידים בזוגות ומשוב ממנחה. לעובד חדש התרגול הראשון צריך להיות מוגן ואנושי, עם מישהו שעוצר ומסביר, לפני שעוברים לתרגול עצמאי.'},
- '011':{t:['course','aid'],w:'ללמוד את הכללים דרך תרחישים, ולהחזיק אותם זמינים.',a:'הייתי משלב לומדה עם תרחישי החלטה מסתעפים ודף עזר שנשאר ליד העובד. כך הם לומדים את הכללים תוך כדי החלטות קטנות, והכללים זמינים גם כשהם עוד לא זוכרים אותם.'},
- '100':{t:['work'],w:'הם יודעים. צריך להבין יחד מה קורה להם בלחץ.',a:'הייתי בוחר בסדנה קצרה שמנתחת שיחות אמיתיות שלהם. הידע קיים, ולכן אין טעם ללמד אותו שוב. הם צריכים להבין מה קורה להם ברגע הלחץ, וזה קורה הכי טוב בשיחה עם עמיתים.'},
- '101':{t:['aid'],w:'ההחלטה ידועה. היא צריכה להיות זמינה ברגע האמת.',a:'הייתי בוחר בכלי עזר בזמן אמת: עץ החלטה קצר על המסך, בתוך השיחה. הם יודעים את הכללים, ובלחץ פשוט לא נשלף מה שצריך. הדרכה נוספת לא תשנה את זה, נגישות כן.'},
- '110':{t:['sim'],w:'תרגול חוזר מול לקוח כועס, בלי מחיר לטעות.',a:'כאן סימולציית AI מתאימה מאוד: שיחות חוזרות מול דמות של לקוח כועס, בלי מחיר לטעות. הם מכירים את הנוהל, ומה שחסר הוא שעות תרגול תחת לחץ, שקשה לספק בדרך אחרת.'},
- '111':{t:['sim','aid'],w:'תרגול החלטות תחת לחץ, עם משוב, ועוגן בזמן אמת.',a:'הייתי משלב סימולציית AI שמתרגלת את נקודות ההחלטה ונותנת משוב על כל בחירה, עם כלי עזר קצר לזמן אמת. התרגול בונה את השליפה תחת לחץ, והכלי תופס את המקרים שעוד לא הוטמעו.'}};
+ '000':{t:['video','sim'],w:'קודם לראות, ואז לתרגל בידיים עד שזה נעשה אוטומטי.',a:'הייתי מתחיל בהדגמה קצרה, ואחריה סביבת תרגול שבה עושים את הפעולה שוב ושוב בלי לחשוש לטעות. זו פעולה יומיומית, ולכן שווה להשקיע עד שהיא נעשית אוטומטית.'},
+ '001':{t:['aid'],w:'פעולה נדירה לא שווה הדרכה. עזרה ברגע שצריך.',a:'לא הייתי מלמד פעולה שעושים פעם ברבעון, כי עד הפעם הבאה היא תישכח. הייתי בונה מדריך צעד־אחר־צעד בתוך המערכת, זמין בדיוק ברגע שצריך.'},
+ '010':{t:['work'],w:'קודם להבין למה זה שווה להם. אחר כך ללמד איך.',a:'הייתי מתחיל במפגש שמראה מה העובדים מרוויחים מהמערכת בעבודה שלהם. בלי סיבה לשנות, גם הדרכה מצוינת לא תשנה הרגלים. רק אחר כך כדאי ללמד תפעול.'},
+ '011':{t:['aid'],w:'פעולה נדירה בלי סיבה לשנות: עזרה זמינה, ושאלה להנהלה.',a:'הייתי מסתפק בכלי עזר זמין לרגע הנדיר, ושואל את ההנהלה אם הפעולה הזאת באמת חייבת לעבור למערכת. השקעה בהדרכה כאן לא תחזיר את עצמה.'},
+ '100':{t:['none'],w:'הם יודעים, והמערכת מסרבלת פעולה יומיומית. צריך לתקן את המערכת.',a:'זו לא בעיית למידה. העובדים יודעים להשתמש במערכת, והיא מסרבלת פעולה שעושים כל יום. הייתי מביא את הממצא לצוות המערכת כדי לפשט את התהליך. הדרכה נוספת רק תתסכל.'},
+ '101':{t:['aid'],w:'הם יודעים, אבל פעולה נדירה ומסורבלת נשכחת. מספיק עוגן קטן.',a:'הם יודעים להפעיל את המערכת, אבל פעולה נדירה ומסורבלת נשכחת בין פעם לפעם. דף עזר או הנחיה קצרה בתוך המסך יספיקו, והדרכה מלאה תהיה בזבוז.'},
+ '110':{t:['none'],w:'הם יודעים, ופשוט לא משתלם להם לשנות. צריך לשנות את התמריץ.',a:'זו לא בעיית למידה. העובדים יודעים להשתמש במערכת, והשיטה הישנה עדיין משתלמת להם: מהירה יותר, או שזה מה שנמדד. צריך לשנות את התמריץ, ושום הדרכה לא תתחרה בו.'},
+ '111':{t:['work'],w:'פעולה נדירה בלי סיבה לשנות. חסרה הסכמה, לא ידע.',a:'הייתי מכנס את המנהלים לשיחה קצרה: מי אחראי לפעולה, ומה קורה כשהיא נעשית בשיטה הישנה. כשהפעולה נדירה ואין סיבה לשנות, חסרה הסכמה, לא ידע.'}};
 var dial=[0,0,0];
 function dkey(){return dial.join('')}
 function drawDial(){
@@ -388,20 +403,20 @@ var votes={};
 $('#vote').addEventListener('click',function(e){var b=e.target.closest('.tool');if(!b||!b.classList.contains('on'))return;votes[b.dataset.t]=(votes[b.dataset.t]||0)+1;$('.cnt',b).innerHTML='<svg class="ic" viewBox="0 0 24 24">'+ICONS.hand+'</svg>'+votes[b.dataset.t];b.blur()});
 
 /* ---------- AI ---------- */
-var cfg={mode:'demo',key:'',model:'gpt-4o-mini',base:'https://api.openai.com/v1',theme:'cream',title:'רגע לפני שבוחרים כלי',sub:'על צורך, על חוויית למידה, ורק אז על טכנולוגיה',stamp:0};
+var cfg={mode:'demo',key:'',model:'gpt-4o-mini',base:'https://api.openai.com/v1',theme:'cream',contact:'',title:'רגע לפני שבוחרים כלי',sub:'על צורך, על חוויית למידה, ורק אז על טכנולוגיה',stamp:0};
 var baked=null,sv=null;
 try{baked=JSON.parse(document.getElementById('mnl-baked').textContent)}catch(e){}
 try{sv=JSON.parse(localStorage.getItem('mnl-cfg')||'null')}catch(e){}
 var from=(baked&&(!sv||(baked.stamp||0)>=(sv.stamp||0)))?baked:sv;
 if(from)for(var k in cfg)if(from[k]!=null)cfg[k]=from[k];
 function saveCfg(){cfg.stamp=Date.now();try{localStorage.setItem('mnl-cfg',JSON.stringify(cfg))}catch(e){}}
-function applyCfg(){if(location.hash!=='#presenter'){var BG={cream:'#FFFBF2',white:'#FFFFFF'};if(!BG[cfg.theme]&&cfg.theme!=='dark')cfg.theme='cream';var R=document.documentElement;R.classList.toggle('pastel',cfg.theme!=='dark');if(BG[cfg.theme])R.style.setProperty('--bg',BG[cfg.theme]);else R.style.removeProperty('--bg')}$('#t-title').textContent=cfg.title;$('#t-sub').textContent=cfg.sub}
+function applyCfg(){if(location.hash!=='#presenter'){var BG={cream:'#FFFBF2',white:'#FFFFFF'};if(!BG[cfg.theme]&&cfg.theme!=='dark')cfg.theme='cream';var R=document.documentElement;R.classList.toggle('pastel',cfg.theme!=='dark');if(BG[cfg.theme])R.style.setProperty('--bg',BG[cfg.theme]);else R.style.removeProperty('--bg')}$('#t-title').textContent=cfg.title;var tc=$('#t-contact');tc.textContent=cfg.contact||'';tc.hidden=!cfg.contact;$('#t-sub').textContent=cfg.sub}
 applyCfg();
 function live(){return cfg.mode==='live'&&cfg.key}
 var SYS='אתה יועץ למידה ארגונית. ענה בעברית, בשלושה משפטים לכל היותר, בלי רשימות ובלי כותרות.';
-var PA='אנשי שירות מתקשים להתמודד עם לקוחות כועסים. איזה כלי למידה מתאים?';
-var DA='יש כמה אפשרויות טובות: סרטון הדרכה, לומדה אינטראקטיבית, סימולציה מבוססת AI, סדנה או כלי עזר בזמן אמת. מומלץ לשלב ביניהן בהתאם לצרכים, לתקציב ולקהל היעד. כל אחת מהן יכולה לתרום לשיפור ההתמודדות עם לקוחות כועסים.';
-function PB(){return 'אנשי שירות מתקשים מול לקוח כועס. '+AX[0][dial[0]]+' '+AX[1][dial[1]]+' '+AX[2][dial[2]]+' איזו חוויית למידה תקדם אותם, ולמה?'}
+var PA='נכנסה מערכת חדשה והעובדים לא משתמשים בה. איזה כלי למידה מתאים?';
+var DA='מומלץ לבנות תוכנית הדרכה מקיפה: לומדה אינטראקטיבית, סרטונים קצרים, סדנאות מעשיות וכלי עזר בזמן אמת. שילוב של כמה ערוצים יגדיל את האימוץ ויעזור לעובדים להכיר את כל יכולות המערכת.';
+function PB(){return 'נכנסה מערכת חדשה, וחצי שנה אחרי העובדים עדיין בשיטה הישנה. '+AX[0][dial[0]]+' '+AX[1][dial[1]]+' '+AX[2][dial[2]]+' מה יקדם את השימוש במערכת, ולמה?'}
 var aiDone=false,aiRun=0;
 function setPrompts(){$('#askA').textContent=PA;$('#askB').textContent=PB();$('#ansA').textContent='';$('#ansB').textContent='';drawMode(live())}
 function drawMode(l){var m=$('#mode');m.classList.toggle('live',!!l);$('span',m).textContent=l?'חי · '+cfg.model:'דמו · תשובות לדוגמה'}
@@ -463,6 +478,7 @@ function adminForm(){box.classList.add('wide');box.innerHTML='<h2>הכנת הס�
  '<ol><li>ממלאים, שומרים ובודקים חיבור כאן, בעמדה שלך.</li><li>מורידים קובץ מוכן ומעבירים אותו לעמדת המרצה.</li><li>שם רק פותחים את הקובץ ולוחצים על "מסך מלא". הכול כבר מוגדר.</li></ol>'+
  '<div class="grid"><label>כותרת הפתיחה<input class="he" id="f-title" type="text"></label>'+
  '<label>שורת משנה<input class="he" id="f-sub" type="text"></label>'+
+ '<label>פרטי קשר במסך הסיום<input class="he" id="f-contact" type="text" placeholder="למשל: מייל או שלוחה של המחלקה"></label>'+
  '<label>רקע<select id="f-theme"><option value="cream">שמנת</option><option value="white">לבן</option><option value="dark">כהה לבמה</option></select></label>'+
  '<label>מצב AI<select id="f-mode"><option value="demo">דמו: תשובות לדוגמה, בלי רשת</option><option value="live">חי: OpenAI</option></select></label>'+
  '<label>מפתח API<input id="f-key" type="password" autocomplete="off" placeholder="sk-..."></label>'+
@@ -472,9 +488,9 @@ function adminForm(){box.classList.add('wide');box.innerHTML='<h2>הכנת הס�
  '<p class="msg" id="amsg">אם קריאה ל-AI נכשלת או מתעכבת על הבמה, המסך עובר לדמו לבד.</p>'+
  '<div class="row"><button class="btn go" data-x="save">שמירה</button><button class="btn" data-x="test">בדיקת חיבור</button><button class="btn go" data-x="export">הורדת קובץ מוכן</button></div>'+
  '<div class="row"><button class="btn" data-x="restart">חזרה למסך הראשון</button><button class="btn" data-x="wipe">מחיקת המפתח מהמחשב הזה</button><button class="btn" data-x="close">סגירה</button></div>';
- $('#f-mode').value=cfg.mode;$('#f-key').value=cfg.key;$('#f-model').value=cfg.model;$('#f-base').value=cfg.base;$('#f-theme').value=cfg.theme;$('#f-title').value=cfg.title;$('#f-sub').value=cfg.sub}
+ $('#f-mode').value=cfg.mode;$('#f-key').value=cfg.key;$('#f-model').value=cfg.model;$('#f-base').value=cfg.base;$('#f-theme').value=cfg.theme;$('#f-title').value=cfg.title;$('#f-sub').value=cfg.sub;$('#f-contact').value=cfg.contact||''}
 function readForm(){cfg.mode=$('#f-mode').value;cfg.key=$('#f-key').value.trim();cfg.model=$('#f-model').value.trim()||'gpt-4o-mini';cfg.base=$('#f-base').value.trim()||'https://api.openai.com/v1';
- cfg.theme=$('#f-theme').value;cfg.title=$('#f-title').value.trim()||'רגע לפני שבוחרים כלי';cfg.sub=$('#f-sub').value.trim()}
+ cfg.theme=$('#f-theme').value;cfg.title=$('#f-title').value.trim()||'רגע לפני שבוחרים כלי';cfg.sub=$('#f-sub').value.trim();cfg.contact=$('#f-contact').value.trim()}
 function exportFile(msg){
   var c={};for(var k in cfg)c[k]=cfg[k];if(!$('#f-inc').checked){c.key='';c.mode='demo'}
   var json=JSON.stringify(c).replace(/</g,'\\u003c');
