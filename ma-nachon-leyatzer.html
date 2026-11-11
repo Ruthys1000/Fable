@@ -84,6 +84,7 @@ h1,h2,p{margin:0;text-wrap:balance}
 .dial .tool{padding:calc(var(--u)*1.4) calc(var(--u)*1);font-size:calc(var(--u)*1.9)} .dial .tool .ic{font-size:calc(var(--u)*3.4)}
 .dial .why{min-height:calc(var(--u)*6.6)}
 .ai{gap:calc(var(--u)*1.8);padding:calc(var(--u)*4) calc(var(--u)*5) calc(var(--u)*5.5)}
+.scoops{display:none;gap:calc(var(--u)*1.4)} .scoops i{width:calc(var(--u)*4.2);height:calc(var(--u)*4.2);border-radius:50%}
 /* three needs */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*2);width:100%}
 .card{border-radius:calc(var(--u)*2.2);background:var(--panel);border:1px solid var(--line);padding:calc(var(--u)*2.6) calc(var(--u)*2.2);display:flex;flex-direction:column;gap:calc(var(--u)*1.4);text-align:start;border-top:calc(var(--u)*.6) solid var(--c)}
@@ -140,28 +141,44 @@ h1,h2,p{margin:0;text-wrap:balance}
 .box dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:15px} .box dt{font-weight:700;direction:ltr;text-align:right;color:var(--hlc)} .box dd{margin:0}
 .msg{font-size:14px;min-height:1.4em}
 
-/* pastel: one flat ice-cream colour, black type, white cards, a single raspberry accent. */
-html.pastel{--bg:#FFD9E4; --bg2:var(--bg); --ink:#141414; --dim:#4D4D4D; --line:var(--bg); --panel:#FFFFFF; --acc:#D81B60;
-  --coral:var(--acc); --teal:var(--acc); --sun:var(--acc); --violet:var(--acc); --on:#FFFFFF; --hlc:var(--acc); --tlc:var(--acc); --crc:var(--acc);
-  --chrome:#FFFFFF; --veil:var(--bg); --boxbg:#FFFFFF; --field:#F6F6F6; color-scheme:light}
-html.pastel #stage,html.pastel #stage[data-seg]{background:var(--bg);--glow:var(--acc)}
-html.pastel .badge{box-shadow:none}
-html.pastel .dial .tool.pick{box-shadow:none}
-html.pastel .card:first-child,html.pastel .pane:first-child{--c:#5A5A5A}
-html.pastel #notes{background:#FFFFFF}
-/* flat: solid fills only. No gradients, shadows, transparency or cross-fades. */
+/* pastel: the event palette. One calm ground, black type, and every element filled with ONE solid strong pastel. No gradients, shadows or transparency. */
+html.pastel{--bg:#FFFBF2; --bg2:var(--bg); --ink:#141414; --dim:#3D3D3D; --neu:#F1ECE1; --line:var(--neu); --panel:var(--neu);
+  --c1:#FF8FB1; --c2:#FFC24B; --c3:#5FE0B7; --c4:#6CC4FF; --c5:#B79CFF; --c6:#FF9F6B;
+  --coral:var(--c1); --teal:var(--c3); --sun:var(--c2); --violet:var(--c5); --on:#141414; --hlc:var(--ink); --tlc:var(--ink); --crc:var(--ink);
+  --chrome:var(--neu); --veil:var(--bg); --boxbg:var(--neu); --field:#FFFFFF; color-scheme:light}
+html.pastel #stage,html.pastel #stage[data-seg]{background:var(--bg);--glow:var(--ink)}
 html.pastel *{box-shadow:none!important}
 html.pastel .scene{transition:none}
 html.pastel [data-b]{opacity:1;visibility:hidden;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-html.pastel [data-b].on{visibility:visible} html.pastel [data-b].gone{visibility:hidden}
-html.pastel .tool,html.pastel .seg>*,html.pastel .chip{transition:none}
+html.pastel [data-b].on{visibility:visible} html.pastel [data-b].gone,html.pastel [data-b].gone [data-b],html.pastel [data-b]:not(.on) [data-b]{visibility:hidden}
+html.pastel .tool,html.pastel .seg>*{transition:none}
 html.pastel .chip{transition:right 1.1s cubic-bezier(.7,0,.2,1)}
-html.pastel .dial .tool{opacity:1;color:#A8A8A8} html.pastel .dial .tool.pick{color:#FFFFFF}
-html.pastel #nav .aux button{opacity:1}
-html.pastel .pane .ask,html.pastel .bits span,html.pastel .box{background:var(--bg)} html.pastel .box{border:0}
-html.pastel .box input,html.pastel .box select{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{background:var(--acc)}
-html.pastel .mode{background:#FFFFFF;border-color:#FFFFFF} html.pastel .mode.live{border-color:#FFFFFF}
-html.pastel .modal{background:#FFFFFF}
+/* emphasis = a solid marker block behind black words */
+html.pastel .hl,html.pastel .tl,html.pastel .cr{color:var(--ink);padding:0 .2em;border-radius:.14em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+html.pastel .hl{background:var(--c2)} html.pastel .tl{background:var(--c3)} html.pastel .cr{background:var(--c1)}
+html.pastel p.hl{display:inline-block}
+html.pastel .badge{padding:0;border-radius:50%;border:0;background:var(--c2)} html.pastel .badge.cr{background:var(--c1)}
+html.pastel .chip{border:0;color:var(--ink)} html.pastel .chip.ctool,html.pastel .flip .chip.ctool{background:var(--c1)} html.pastel .chip.mid{background:var(--c2)} html.pastel .chip.need,html.pastel .flip .chip.need{background:var(--c3)}
+html.pastel .tool,html.pastel .seg,html.pastel .card,html.pastel .pane,html.pastel .qcard,html.pastel .mode,html.pastel .box,html.pastel .bits span{border:0}
+html.pastel .tool:nth-child(1){--tc:var(--c1)} html.pastel .tool:nth-child(2){--tc:var(--c2)} html.pastel .tool:nth-child(3){--tc:var(--c3)} html.pastel .tool:nth-child(4){--tc:var(--c4)} html.pastel .tool:nth-child(5){--tc:var(--c5)}
+html.pastel #vote .tool{background:var(--tc)}
+html.pastel .dial .tool{opacity:1;background:var(--neu);color:#9C968A} html.pastel .dial .tool.pick{background:var(--tc);color:var(--ink)}
+html.pastel .tool .cnt{background:var(--ink);color:#FFFFFF}
+html.pastel .axis:nth-child(1){--ac:var(--c1)} html.pastel .axis:nth-child(2){--ac:var(--c2)} html.pastel .axis:nth-child(3){--ac:var(--c4)}
+html.pastel .seg button[aria-pressed="true"]{background:var(--ac);color:var(--ink)} html.pastel .seg>*+*{border-inline-start:calc(var(--u)*.3) solid var(--bg)}
+html.pastel .axis .q{color:var(--ink)}
+html.pastel .card{background:var(--c);border-top:0} html.pastel .card .n,html.pastel .card .v,html.pastel .card .so,html.pastel .card .so .ic{color:var(--ink)}
+html.pastel .pane{background:var(--c)} html.pastel .pane .t,html.pastel .pane .ans .ic{color:var(--ink)} html.pastel .pane .ask{background:#FFFFFF}
+html.pastel .qcard:nth-child(1){background:var(--c4)} html.pastel .qcard:nth-child(2){background:var(--c2)} html.pastel .qcard:nth-child(3){background:var(--c1)}
+html.pastel .qcard p{color:var(--ink)} html.pastel .qcard .num{background:var(--ink);color:#FFFFFF} html.pastel .bits span{background:#FFFFFF} html.pastel .bits .ic{color:var(--ink)}
+html.pastel .strike::after{background:#FF4F86}
+html.pastel .eye{background:var(--c3);padding:.35em 1.1em;border-radius:2em}
+html.pastel .scoops{display:flex}
+html.pastel .mode.live{background:var(--c3);color:var(--ink)}
+html.pastel #nav .aux button{opacity:1} html.pastel #nav button,html.pastel .pill{border:0}
+html.pastel #prog{background:var(--ink)} html.pastel #notes{background:var(--neu);border:0}
+html.pastel .modal{background:var(--bg)} html.pastel .box input,html.pastel .box select{border-color:#FFFFFF}
+html.pastel .btn{background:#FFFFFF;border-color:#FFFFFF} html.pastel .btn.go{background:var(--ink);border-color:var(--ink);color:#FFFFFF}
 .box input.he{direction:rtl;text-align:right} .box.wide{width:min(780px,100%);gap:12px} .box .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px} .box ol{margin:0;padding-inline-start:20px;font-size:14px;color:var(--dim)} .box .chk{flex-direction:row;align-items:center;gap:8px}
 /* presenter window */
 #pres{position:fixed;inset:0;direction:rtl;background:#070A1E;color:var(--ink);padding:24px;display:flex;flex-direction:column;gap:18px;font-size:18px;overflow:auto}
@@ -187,6 +204,7 @@ html.pastel .modal{background:#FFFFFF}
   <p class="eye">עוצרים רגע</p>
   <h1 class="xl" id="t-title" style="max-width:calc(var(--u)*60)">רגע לפני שבוחרים כלי</h1>
   <p class="sm" id="t-sub">על צורך, על חוויית למידה, ורק אז על טכנולוגיה</p>
+  <div class="scoops" aria-hidden="true"><i style="background:var(--c1)"></i><i style="background:var(--c2)"></i><i style="background:var(--c3)"></i><i style="background:var(--c4)"></i><i style="background:var(--c5)"></i></div>
 </section>
 
 <section class="scene" data-seg="0" data-name="המלכודת">
@@ -220,13 +238,13 @@ html.pastel .modal{background:#FFFFFF}
 </section>
 
 <section class="scene" data-seg="1" data-name="מה אנחנו יודעים?">
-  <h1 class="lg">אבל רגע… <span class="cr">מה אנחנו בכלל יודעים?</span></h1>
+  <h1 class="lg" style="font-size:calc(var(--u)*4.6)">אבל רגע… <span class="cr">מה אנחנו בכלל יודעים?</span></h1>
   <div class="axes">
     <div class="axis" data-b="1"><span class="q">מה הם יודעים?</span><div class="seg"><span>לא יודעים מה לעשות</span><span>יודעים, אבל לא מצליחים בלחץ</span></div></div>
     <div class="axis" data-b="2"><span class="q">מה חסר להם?</span><div class="seg"><span>להבין</span><span>לתרגל</span></div></div>
     <div class="axis" data-b="3"><span class="q">איפה הקושי?</span><div class="seg"><span>בשיחה עצמה</span><span>בהחלטות במהלכה</span></div></div>
   </div>
-  <p class="md" data-b="4" style="max-width:calc(var(--u)*72)">בלי התשובות לשאלות האלה,<br><span class="hl">אנחנו לא באמת יכולים לבחור כלי.</span></p>
+  <p class="md" data-b="4" style="max-width:calc(var(--u)*72);font-size:calc(var(--u)*3.2)">בלי התשובות לשאלות האלה,<br><span class="hl">אנחנו לא באמת יכולים לבחור כלי.</span></p>
 </section>
 
 <section class="scene dial" data-seg="2" data-name="חוגת הצורך">
@@ -370,14 +388,14 @@ var votes={};
 $('#vote').addEventListener('click',function(e){var b=e.target.closest('.tool');if(!b||!b.classList.contains('on'))return;votes[b.dataset.t]=(votes[b.dataset.t]||0)+1;$('.cnt',b).innerHTML='<svg class="ic" viewBox="0 0 24 24">'+ICONS.hand+'</svg>'+votes[b.dataset.t];b.blur()});
 
 /* ---------- AI ---------- */
-var cfg={mode:'demo',key:'',model:'gpt-4o-mini',base:'https://api.openai.com/v1',theme:'pink',title:'רגע לפני שבוחרים כלי',sub:'על צורך, על חוויית למידה, ורק אז על טכנולוגיה',stamp:0};
+var cfg={mode:'demo',key:'',model:'gpt-4o-mini',base:'https://api.openai.com/v1',theme:'cream',title:'רגע לפני שבוחרים כלי',sub:'על צורך, על חוויית למידה, ורק אז על טכנולוגיה',stamp:0};
 var baked=null,sv=null;
 try{baked=JSON.parse(document.getElementById('mnl-baked').textContent)}catch(e){}
 try{sv=JSON.parse(localStorage.getItem('mnl-cfg')||'null')}catch(e){}
 var from=(baked&&(!sv||(baked.stamp||0)>=(sv.stamp||0)))?baked:sv;
 if(from)for(var k in cfg)if(from[k]!=null)cfg[k]=from[k];
 function saveCfg(){cfg.stamp=Date.now();try{localStorage.setItem('mnl-cfg',JSON.stringify(cfg))}catch(e){}}
-function applyCfg(){if(location.hash!=='#presenter'){var BG={pink:'#FFD9E4',mint:'#CDF2E2',sky:'#CFE8FF',vanilla:'#FFF1C2',lilac:'#E4DAFF'};if(!BG[cfg.theme]&&cfg.theme!=='dark')cfg.theme='pink';var R=document.documentElement;R.classList.toggle('pastel',cfg.theme!=='dark');if(BG[cfg.theme])R.style.setProperty('--bg',BG[cfg.theme]);else R.style.removeProperty('--bg')}$('#t-title').textContent=cfg.title;$('#t-sub').textContent=cfg.sub}
+function applyCfg(){if(location.hash!=='#presenter'){var BG={cream:'#FFFBF2',white:'#FFFFFF'};if(!BG[cfg.theme]&&cfg.theme!=='dark')cfg.theme='cream';var R=document.documentElement;R.classList.toggle('pastel',cfg.theme!=='dark');if(BG[cfg.theme])R.style.setProperty('--bg',BG[cfg.theme]);else R.style.removeProperty('--bg')}$('#t-title').textContent=cfg.title;$('#t-sub').textContent=cfg.sub}
 applyCfg();
 function live(){return cfg.mode==='live'&&cfg.key}
 var SYS='אתה יועץ למידה ארגונית. ענה בעברית, בשלושה משפטים לכל היותר, בלי רשימות ובלי כותרות.';
@@ -445,7 +463,7 @@ function adminForm(){box.classList.add('wide');box.innerHTML='<h2>הכנת הס�
  '<ol><li>ממלאים, שומרים ובודקים חיבור כאן, בעמדה שלך.</li><li>מורידים קובץ מוכן ומעבירים אותו לעמדת המרצה.</li><li>שם רק פותחים את הקובץ ולוחצים על "מסך מלא". הכול כבר מוגדר.</li></ol>'+
  '<div class="grid"><label>כותרת הפתיחה<input class="he" id="f-title" type="text"></label>'+
  '<label>שורת משנה<input class="he" id="f-sub" type="text"></label>'+
- '<label>צבע רקע<select id="f-theme"><option value="pink">ורוד תות</option><option value="mint">ירוק מנטה</option><option value="sky">תכלת</option><option value="vanilla">וניל</option><option value="lilac">לילך</option><option value="dark">כהה לבמה</option></select></label>'+
+ '<label>רקע<select id="f-theme"><option value="cream">שמנת</option><option value="white">לבן</option><option value="dark">כהה לבמה</option></select></label>'+
  '<label>מצב AI<select id="f-mode"><option value="demo">דמו: תשובות לדוגמה, בלי רשת</option><option value="live">חי: OpenAI</option></select></label>'+
  '<label>מפתח API<input id="f-key" type="password" autocomplete="off" placeholder="sk-..."></label>'+
  '<label>מודל<input id="f-model" type="text"></label>'+
